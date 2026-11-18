@@ -1,0 +1,196 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RankUp - Free Exam Preparation</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f5fb;color:#17213b}
+header{background:#172554;color:white;padding:22px 18px}
+header h1{margin:0;font-size:30px}
+header p{margin:7px 0 0;color:#c7d2fe}
+.container{max-width:850px;margin:auto;padding:18px}
+.hero{background:linear-gradient(120deg,#1e3a8a,#4f46e5);color:white;padding:25px;border-radius:16px;margin-bottom:20px}
+.hero h2{margin:0 0 8px;font-size:25px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.exam{background:white;padding:20px;border-radius:13px;border:1px solid #e2e8f0;cursor:pointer;text-align:left;font-size:16px;font-weight:bold;color:#172554}
+.exam:hover{border-color:#4f46e5;background:#eef2ff}
+.exam small{display:block;color:#64748b;margin-top:8px;font-weight:normal}
+.card{background:white;border-radius:14px;padding:20px;margin-top:15px}
+button{border:0;border-radius:9px;padding:12px 18px;background:#4f46e5;color:white;font-size:15px;cursor:pointer}
+button:disabled{opacity:.4}
+.secondary{background:#64748b}
+.option{display:block;width:100%;text-align:left;margin:10px 0;background:#eef2ff;color:#172554;border:1px solid #dbe3f4}
+.option.selected{background:#dbeafe;border:2px solid #4f46e5}
+.option.correct{background:#dcfce7;border:2px solid #16a34a}
+.option.wrong{background:#fee2e2;border:2px solid #dc2626}
+.topline{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:#475569;font-weight:bold}
+#question{font-size:19px;line-height:1.5}
+#explanation{background:#f0fdf4;padding:13px;border-radius:9px;margin-top:14px}
+.hidden{display:none}
+footer{text-align:center;color:#64748b;padding:25px;font-size:13px}
+@media(max-width:500px){.grid{grid-template-columns:1fr}.hero h2{font-size:21px}}
+</style>
+</head>
+<body>
+<header>
+<h1>🚀 RankUp</h1>
+<p>Free Competitive Exam Preparation | സൗജന്യ പരീക്ഷാ പരിശീലനം</p>
+</header>
+
+<div class="container">
+<section id="home">
+<div class="hero">
+<h2>Your Success Starts Here!</h2>
+<p>Learn • Practice • Test • Succeed</p>
+<p>100% FREE | Malayalam + English</p>
+</div>
+<h3>Choose Your Examination / പരീക്ഷ തിരഞ്ഞെടുക്കുക</h3>
+<div class="grid">
+<button class="exam" onclick="start('SSC GD')">🪖 SSC GD<small>General Duty Constable</small></button>
+<button class="exam" onclick="start('SSC MTS / Havaldar')">📘 SSC MTS / Havaldar<small>Multi Tasking Staff</small></button>
+<button class="exam" onclick="start('SSC Other Exams')">📚 SSC Other Exams<small>CGL / CHSL</small></button>
+<button class="exam" onclick="start('RRB Railway')">🚆 RRB Railway<small>Railway Recruitment Exams</small></button>
+<button class="exam" onclick="start('Kerala PSC')">🏛️ Kerala PSC<small>Kerala Public Service Commission</small></button>
+</div>
+<div class="card">
+<h3>What RankUp offers</h3>
+<p>✓ Free Mock Tests</p>
+<p>✓ Malayalam + English Questions</p>
+<p>✓ Instant Results and Answer Key</p>
+<p>✓ Malayalam Explanations</p>
+<p>✓ Daily Practice</p>
+</div>
+</section>
+
+<section id="test" class="hidden">
+<div class="card">
+<div class="topline">
+<span id="examName"></span>
+<span id="timer">15:00</span>
+</div>
+<p id="progress"></p>
+<h3 id="question"></h3>
+<div id="options"></div>
+<div style="display:flex;justify-content:space-between;gap:10px;margin-top:18px">
+<button class="secondary" onclick="goHome()">Exit</button>
+<button id="next" onclick="nextQuestion()">Next →</button>
+</div>
+</div>
+</section>
+
+<section id="result" class="hidden">
+<div class="card">
+<h2>🎉 Test Completed!</h2>
+<h3 id="score"></h3>
+<p id="percentage"></p>
+<div id="review"></div>
+<button onclick="goHome()">Back to Home</button>
+</div>
+</section>
+</div>
+<footer>RankUp © 2026 | Free Education for Everyone</footer>
+
+<script>
+const bank={
+"SSC GD":[
+["What is the capital of India? / ഇന്ത്യയുടെ തലസ്ഥാനം ഏത്?","Mumbai","New Delhi","Chennai","Kolkata",1,"New Delhi is the capital of India. / ന്യൂഡൽഹിയാണ് ഇന്ത്യയുടെ തലസ്ഥാനം."],
+["Who is known as the Father of the Indian Constitution? / ഇന്ത്യൻ ഭരണഘടനയുടെ പിതാവ് ആര്?","Mahatma Gandhi","Jawaharlal Nehru","Dr. B. R. Ambedkar","Sardar Patel",2,"Dr. B. R. Ambedkar chaired the Drafting Committee. / ഭരണഘടനാ ഡ്രാഫ്റ്റിംഗ് കമ്മിറ്റിയുടെ അധ്യക്ഷനായിരുന്നു അംബേദ്കർ."],
+["What is 25% of 200? / 200-ന്റെ 25% എത്ര?","25","40","50","75",2,"200 × 25/100 = 50."],
+["Which planet is known as the Red Planet? / ചുവന്ന ഗ്രഹം ഏത്?","Venus","Mars","Jupiter","Saturn",1,"Mars is called the Red Planet because of iron oxide on its surface."],
+["How many sides does a hexagon have? / ഷഡ്ഭുജത്തിന് എത്ര വശങ്ങളുണ്ട്?","5","6","7","8",1,"A hexagon has six sides. / ഷഡ്ഭുജത്തിന് ആറ് വശങ്ങളുണ്ട്."]
+],
+"SSC MTS / Havaldar":[
+["What is 15 × 8? / 15 × 8 എത്ര?","100","110","120","130",2,"15 × 8 = 120."],
+["Find the next number: 2, 4, 8, 16, ? / അടുത്ത സംഖ്യ കണ്ടെത്തുക.","20","24","30","32",3,"Each number is multiplied by 2. / ഓരോ സംഖ്യയും 2 കൊണ്ട് ഗുണിക്കുന്നു."],
+["Which is the largest state in India by area? / വിസ്തീർണ്ണത്തിൽ ഇന്ത്യയിലെ ഏറ്റവും വലിയ സംസ്ഥാനം?","Kerala","Rajasthan","Goa","Punjab",1,"Rajasthan is the largest Indian state by area."],
+["Who wrote the Indian National Anthem? / ദേശീയഗാനം രചിച്ചത് ആര്?","Bankim Chandra","Rabindranath Tagore","Sarojini Naidu","Subramania Bharati",1,"Rabindranath Tagore wrote Jana Gana Mana."],
+["What is the HCF of 12 and 18? / 12, 18 എന്നിവയുടെ ഉസാഘ എത്ര?","3","6","9","12",1,"The highest common factor of 12 and 18 is 6."]
+],
+"SSC Other Exams":[
+["What is the square root of 144? / 144-ന്റെ വർഗമൂലം എത്ര?","10","11","12","14",2,"12 × 12 = 144."],
+["Which gas do plants absorb? / സസ്യങ്ങൾ ആഗിരണം ചെയ്യുന്ന വാതകം ഏത്?","Oxygen","Nitrogen","Carbon dioxide","Hydrogen",2,"Plants absorb carbon dioxide during photosynthesis."],
+["Who was the first President of India? / ഇന്ത്യയുടെ ആദ്യ രാഷ്ട്രപതി ആര്?","Dr. Rajendra Prasad","S. Radhakrishnan","Zakir Hussain","V. V. Giri",0,"Dr. Rajendra Prasad was India's first President."],
+["Find the odd one out: Apple, Mango, Carrot, Banana.","Apple","Mango","Carrot","Banana",2,"Carrot is a vegetable; the others are fruits."],
+["What is 20% of 500? / 500-ന്റെ 20% എത്ര?","50","75","100","125",2,"500 × 20/100 = 100."]
+],
+"RRB Railway":[
+["Where is the headquarters of Indian Railways? / ഇന്ത്യൻ റെയിൽവേയുടെ ആസ്ഥാനം എവിടെ?","Mumbai","New Delhi","Kolkata","Chennai",1,"The Railway Board headquarters is in New Delhi."],
+["What is the SI unit of force? / ബലത്തിന്റെ SI യൂണിറ്റ് ഏത്?","Joule","Watt","Newton","Pascal",2,"Newton is the SI unit of force."],
+["Which is the fastest mode of transport? / ഏറ്റവും വേഗതയേറിയ ഗതാഗത മാർഗം?","Road","Rail","Air","Water",2,"Air transport is generally the fastest."],
+["What is 144 ÷ 12? / 144 ÷ 12 എത്ര?","10","11","12","14",2,"144 divided by 12 equals 12."],
+["Which blood cells help fight infection? / അണുബാധയെ ചെറുക്കുന്ന രക്തകോശങ്ങൾ?","Red blood cells","White blood cells","Platelets","None",1,"White blood cells help protect the body from infection."]
+],
+"Kerala PSC":[
+["What is the capital of Kerala? / കേരളത്തിന്റെ തലസ്ഥാനം ഏത്?","Kochi","Kozhikode","Thiruvananthapuram","Kannur",2,"Thiruvananthapuram is the capital of Kerala."],
+["Who was the first Chief Minister of Kerala? / കേരളത്തിലെ ആദ്യ മുഖ്യമന്ത്രി ആര്?","K. Karunakaran","E. M. S. Namboodiripad","A. K. Antony","Pattom Thanu Pillai",1,"E. M. S. Namboodiripad became the first Chief Minister in 1957."],
+["When was Kerala formed? / കേരളം രൂപീകൃതമായത് എന്ന്?","1947","1950","1956","1960",2,"Kerala was formed on 1 November 1956."],
+["Which is the longest river in Kerala? / കേരളത്തിലെ ഏറ്റവും നീളം കൂടിയ നദി?","Bharathapuzha","Periyar","Pamba","Chaliyar",1,"Periyar is the longest river in Kerala."],
+["Who is known as Kerala's Renaissance leader, Sree Narayana Guru? / ശ്രീനാരായണ ഗുരു അറിയപ്പെടുന്നത് എന്തിനാണ്?","Social reformer","King","Scientist","Poet only",0,"Sree Narayana Guru was a great social reformer."]
+]
+};
+
+let questions=[],index=0,answers=[],seconds=900,clock=null,current="";
+function start(name){
+current=name;questions=bank[name];index=0;answers=Array(questions.length).fill(-1);
+seconds=900;
+document.getElementById("home").classList.add("hidden");
+document.getElementById("result").classList.add("hidden");
+document.getElementById("test").classList.remove("hidden");
+document.getElementById("examName").textContent=name;
+clearInterval(clock);
+clock=setInterval(()=>{
+seconds--;
+document.getElementById("timer").textContent=
+String(Math.floor(seconds/60)).padStart(2,"0")+":"+String(seconds%60).padStart(2,"0");
+if(seconds<=0)finish();
+},1000);
+showQuestion();
+}
+function showQuestion(){
+let q=questions[index];
+document.getElementById("progress").textContent="Question "+(index+1)+" of "+questions.length;
+document.getElementById("question").textContent=q[0];
+let box=document.getElementById("options");box.innerHTML="";
+q.slice(1,5).forEach((option,i)=>{
+let b=document.createElement("button");
+b.className="option"+(answers[index]===i?" selected":"");
+b.textContent=String.fromCharCode(65+i)+". "+option;
+b.onclick=()=>{answers[index]=i;showQuestion()};
+box.appendChild(b);
+});
+document.getElementById("next").textContent=index===questions.length-1?"Submit Test":"Next →";
+}
+function nextQuestion(){
+if(index<questions.length-1){index++;showQuestion()}
+else finish();
+}
+function finish(){
+clearInterval(clock);
+document.getElementById("test").classList.add("hidden");
+document.getElementById("result").classList.remove("hidden");
+let score=0;
+questions.forEach((q,i)=>{if(answers[i]===q[5])score++});
+document.getElementById("score").textContent="Your Score: "+score+" / "+questions.length;
+document.getElementById("percentage").textContent="Percentage: "+Math.round(score/questions.length*100)+"%";
+let review=document.getElementById("review");review.innerHTML="<h3>Answer Key & Explanations</h3>";
+questions.forEach((q,i)=>{
+let correct=q[5];
+let div=document.createElement("div");div.className="card";
+let chosen=answers[i]===-1?"Not answered":q[answers[i]+1];
+div.innerHTML="<b>Q"+(i+1)+". "+q[0]+"</b><p>Your answer: "+chosen+"</p><p>Correct answer: "+q[correct+1]+"</p><div id='exp"+i+"'></div>";
+review.appendChild(div);
+document.getElementById("exp"+i).textContent=q[6];
+});
+}
+function goHome(){
+clearInterval(clock);
+document.getElementById("test").classList.add("hidden");
+document.getElementById("result").classList.add("hidden");
+document.getElementById("home").classList.remove("hidden");
+}
+</script>
+</body>
+</html>
