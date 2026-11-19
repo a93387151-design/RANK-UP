@@ -4,153 +4,217 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>RANK UP - SSC MTS Mock Test</title>
+<title>RANK UP - Exam Preparation</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#f1f5fb;color:#172554;font-family:Arial,sans-serif}
-header{background:#102b59;color:white;text-align:center;padding:20px}
-header h1{margin:0;font-size:29px}
-main{max-width:750px;margin:18px auto;padding:12px}
-.card{background:white;padding:20px;border-radius:14px;box-shadow:0 3px 12px #0001}
-.top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-weight:bold}
-#timer{color:#dc2626}
-#progress{height:8px;background:#e5e7eb;border-radius:8px;margin:16px 0}
-#bar{height:8px;background:#2563eb;width:0;border-radius:8px}
-#question{font-size:18px;line-height:1.6;margin:20px 0}
-.option{display:block;border:1px solid #cbd5e1;padding:13px;margin:10px 0;border-radius:9px;cursor:pointer}
-.option:has(input:checked){background:#dbeafe;border-color:#2563eb}
-.option input{margin-right:9px}
-button{border:0;background:#1d5ed0;color:white;padding:12px 18px;border-radius:8px;font-weight:bold;cursor:pointer}
-button:disabled{opacity:.4}
-.controls{display:flex;justify-content:space-between;gap:10px;margin-top:20px}
-#result{display:none;margin-top:15px}
-.review{border-top:1px solid #ddd;padding:12px 0;line-height:1.6}
-.small{color:#64748b;font-size:13px}
+body{margin:0;background:#f1f5fb;color:#172554;font-family:Arial}
+header{background:#102b59;color:white;text-align:center;padding:25px}
+header h1{font-size:32px;margin:0}
+main{max-width:850px;margin:auto;padding:18px}
+.hero,.card{background:white;padding:20px;border-radius:14px;margin-bottom:16px;box-shadow:0 3px 12px #0001}
+.hero{text-align:center}
+.hero h2{color:#1556ae}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.exam{background:white;padding:22px;border-radius:13px;text-align:center;box-shadow:0 3px 12px #0001}
+.exam h3{color:#1556ae}
+button{background:#175dcc;color:white;border:0;border-radius:8px;padding:12px 18px;font-weight:bold;cursor:pointer}
+#test,#result{display:none}
+.option{display:block;padding:13px;border:1px solid #ccd5e1;border-radius:9px;margin:10px 0;cursor:pointer}
+.option:has(input:checked){background:#e2edff;border-color:#2563eb}
+.top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+#timer{color:#dc2626;font-weight:bold}
+.controls{display:flex;justify-content:space-between;gap:8px;margin-top:20px;flex-wrap:wrap}
+#progress{height:8px;background:#ddd;border-radius:10px;margin:15px 0}
+#bar{height:8px;background:#2563eb;width:0;border-radius:10px}
+.review{padding:12px 0;border-top:1px solid #ddd;line-height:1.6}
+footer{text-align:center;padding:25px;color:#64748b}
+@media(max-width:500px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <header>
 <h1>🚀 RANK UP</h1>
-<p>SSC MTS | Day 1 Mock Test</p>
+<p>FREE COMPETITIVE EXAM PREPARATION</p>
 <p>Malayalam + English</p>
 </header>
 <main>
+<div id="home">
+<div class="hero">
+<h2>YOUR SUCCESS STARTS HERE!</h2>
+<p>Learn • Practice • Improve • Succeed</p>
+<p>100% FREE MOCK TEST PLATFORM</p>
+</div>
+<h2>Choose Your Examination</h2>
+<div class="grid">
+<div class="exam">
+<h3>SSC MTS</h3>
+<p>Multi Tasking Staff</p>
+<button onclick="start('SSC MTS')">Start Test</button>
+</div>
+<div class="exam">
+<h3>SSC GD</h3>
+<p>Constable Examination</p>
+<button onclick="start('SSC GD')">Start Test</button>
+</div>
+<div class="exam">
+<h3>RRB</h3>
+<p>Railway Recruitment</p>
+<button onclick="start('RRB')">Start Test</button>
+</div>
+<div class="exam">
+<h3>Kerala PSC</h3>
+<p>Kerala Government Exams</p>
+<button onclick="start('Kerala PSC')">Start Test</button>
+</div>
+</div>
+<div class="hero">
+<h3>Why RANK UP?</h3>
+<p>✓ Daily Mock Tests</p>
+<p>✓ Malayalam + English</p>
+<p>✓ Answer Key & Explanations</p>
+<p>✓ Free Learning for Everyone</p>
+</div>
+</div>
+
 <div class="card" id="test">
 <div class="top">
-<span>SSC MTS – 50 Questions</span>
-<span id="timer">60:00</span>
+<b id="examName"></b>
+<b id="timer">60:00</b>
 </div>
 <div id="progress"><div id="bar"></div></div>
 <div class="top">
-<span id="count">Question 1 / 50</span>
-<span id="answered">Answered: 0</span>
+<span id="count"></span>
+<span id="answered"></span>
 </div>
-<div id="question"></div>
+<h3 id="question"></h3>
 <div id="options"></div>
 <div class="controls">
-<button id="prev" onclick="move(-1)">Previous</button>
-<button id="next" onclick="move(1)">Next</button>
+<button onclick="move(-1)" id="prev">Previous</button>
+<button onclick="move(1)" id="next">Next</button>
 <button onclick="submitTest()">Submit Test</button>
 </div>
-<p class="small">Choose one answer for each question. You can return to previous questions.</p>
 </div>
+
 <div class="card" id="result">
 <h2>Test Result</h2>
 <h1 id="score"></h1>
 <p id="details"></p>
 <div id="review"></div>
-<button onclick="location.reload()">Try Again</button>
+<button onclick="home()">Back to Home</button>
 </div>
 </main>
-<script>
-const questions = [
-["What is 25% of 240? / 240-ന്റെ 25% എത്ര?",["40","50","60","80"],2,"25% = 1/4. 240 ÷ 4 = 60."],
-["Find the next number: 2, 6, 12, 20, 30, ? / അടുത്ത സംഖ്യ കണ്ടെത്തുക.",["36","40","42","44"],2,"വ്യത്യാസം 4, 6, 8, 10, അടുത്തത് 12. 30+12=42."],
-["What is the square of 15? / 15-ന്റെ വർഗ്ഗം എത്ര?",["125","200","225","250"],2,"15 × 15 = 225."],
-["A man buys an item for ₹400 and sells it for ₹500. Find profit percentage. / ലാഭശതമാനം?",["20%","25%","30%","15%"],1,"ലാഭം 100. ലാഭശതമാനം = 100/400 × 100 = 25%."],
-["Find the HCF of 12 and 18. / 12, 18 എന്നിവയുടെ ഉസാഘ എത്ര?",["3","6","9","12"],1,"12, 18 എന്നിവയെ ഹരിക്കുന്ന ഏറ്റവും വലിയ സംഖ്യ 6 ആണ്."],
-["If 5 pens cost ₹50, what is the cost of 8 pens? / 8 പേനകളുടെ വില?",["₹60","₹70","₹80","₹90"],2,"ഒരു പേന ₹10. 8 പേനയ്ക്ക് ₹80."],
-["Simplify: 48 ÷ 6 × 2 / ലഘൂകരിക്കുക.",["4","8","16","24"],2,"ഇടത്തുനിന്ന് വലത്തോട്ട്: 48÷6=8; 8×2=16."],
-["What is the average of 10, 20 and 30? / ശരാശരി എത്ര?",["15","20","25","30"],1,"(10+20+30)÷3 = 20."],
-["A train travels 120 km in 2 hours. Find its speed. / വേഗത എത്ര?",["40 km/h","50 km/h","60 km/h","70 km/h"],2,"വേഗത = ദൂരം/സമയം = 120/2 = 60 km/h."],
-["What is 3/5 of 100? / 100-ന്റെ 3/5 എത്ര?",["30","40","50","60"],3,"100 × 3/5 = 60."],
-["Find the odd one out. / വ്യത്യസ്തമായത് കണ്ടെത്തുക.",["2","3","5","9"],3,"2, 3, 5 അഭാജ്യസംഖ്യകളാണ്; 9 അല്ല."],
-["If CAT is coded as DBU, how is DOG coded? / DOG-ന്റെ കോഡ്?",["EPH","EOG","FPH","DPH"],0,"ഓരോ അക്ഷരത്തിനും അടുത്ത അക്ഷരം: D→E, O→P, G→H."],
-["Complete: A, C, E, G, ? / അടുത്ത അക്ഷരം?",["H","I","J","K"],1,"ഓരോ തവണയും ഒരു അക്ഷരം വിട്ട് മുന്നോട്ട്: I."],
-["Ravi is taller than Manu. Manu is taller than Anu. Who is shortest? / ഏറ്റവും ഉയരം കുറഞ്ഞത് ആര്?",["Ravi","Manu","Anu","Cannot say"],2,"Ravi > Manu > Anu. അതിനാൽ Anu."],
-["Find the missing number: 5, 10, 20, 40, ? / അടുത്ത സംഖ്യ?",["50","60","70","80"],3,"ഓരോ സംഖ്യയും 2 കൊണ്ട് ഗുണിക്കുന്നു. 40×2=80."],
-["Which is different? / വ്യത്യസ്തമായത് ഏത്?",["Apple","Mango","Carrot","Banana"],2,"Carrot ഒരു പച്ചക്കറിയാണ്; മറ്റുള്ളവ പഴങ്ങളാണ്."],
-["If today is Monday, what day will it be after 10 days? / 10 ദിവസത്തിന് ശേഷം?",["Wednesday","Thursday","Friday","Saturday"],1,"10÷7 ശേഷിപ്പ് 3. തിങ്കളാഴ്ചയ്ക്ക് 3 ദിവസം ശേഷം വ്യാഴം."],
-["Book is related to Reading as Food is related to _____. / ബന്ധം പൂർത്തിയാക്കുക.",["Cooking","Eating","Writing","Sleeping"],1,"പുസ്തകം വായിക്കുന്നു; ഭക്ഷണം കഴിക്കുന്നു."],
-["How many sides does a hexagon have? / ഷഡ്ഭുജത്തിന് എത്ര വശങ്ങൾ?",["5","6","7","8"],1,"Hexagon എന്നത് 6 വശങ്ങളുള്ള ബഹുഭുജമാണ്."],
-["Find the next number: 1, 4, 9, 16, 25, ? / അടുത്ത സംഖ്യ?",["30","32","36","49"],2,"ഇവ 1², 2², 3², 4², 5². അടുത്തത് 6²=36."],
-["Who is known as the Father of the Indian Constitution? / ഇന്ത്യൻ ഭരണഘടനയുടെ ശിൽപി ആര്?",["Mahatma Gandhi","Dr. B. R. Ambedkar","Jawaharlal Nehru","Sardar Patel"],1,"ഡോ. ബി. ആർ. അംബേദ്കർ ഭരണഘടനാ കരട് സമിതിയുടെ അധ്യക്ഷനായിരുന്നു."],
-["What is the capital of India? / ഇന്ത്യയുടെ തലസ്ഥാനം?",["Mumbai","Kolkata","New Delhi","Chennai"],2,"ഇന്ത്യയുടെ തലസ്ഥാനം ന്യൂഡൽഹിയാണ്."],
-["Which is the largest planet in the Solar System? / സൗരയൂഥത്തിലെ ഏറ്റവും വലിയ ഗ്രഹം?",["Earth","Mars","Jupiter","Venus"],2,"വ്യാഴം (Jupiter) ആണ് ഏറ്റവും വലിയ ഗ്രഹം."],
-["Which gas do plants absorb during photosynthesis? / പ്രകാശസംശ്ലേഷണത്തിൽ സസ്യങ്ങൾ ആഗിരണം ചെയ്യുന്ന വാതകം?",["Oxygen","Nitrogen","Carbon dioxide","Hydrogen"],2,"സസ്യങ്ങൾ കാർബൺ ഡൈ ഓക്സൈഡ് ആഗിരണം ചെയ്യുന്നു."],
-["What is the national animal of India? / ഇന്ത്യയുടെ ദേശീയ മൃഗം?",["Lion","Tiger","Elephant","Leopard"],1,"ഇന്ത്യയുടെ ദേശീയ മൃഗം കടുവയാണ്."],
-["Which is the longest river in India? / ഇന്ത്യയിലെ ഏറ്റവും നീളം കൂടിയ നദി?",["Yamuna","Godavari","Ganga","Narmada"],2,"ഇന്ത്യയിലെ ഏറ്റവും നീളം കൂടിയ നദിയായി ഗംഗയെ പൊതുവേ കണക്കാക്കുന്നു."],
-["Who was the first President of India? / ഇന്ത്യയുടെ ആദ്യ രാഷ്ട്രപതി?",["Dr. Rajendra Prasad","S. Radhakrishnan","Zakir Hussain","A. P. J. Abdul Kalam"],0,"ഡോ. രാജേന്ദ്ര പ്രസാദ് ആയിരുന്നു ആദ്യ രാഷ്ട്രപതി."],
-["Where is the headquarters of ISRO? / ISRO ആസ്ഥാനം എവിടെ?",["New Delhi","Mumbai","Bengaluru","Hyderabad"],2,"ISRO-യുടെ ആസ്ഥാനം ബെംഗളൂരുവിലാണ്."],
-["Which vitamin is produced in the skin by sunlight? / സൂര്യപ്രകാശം മൂലം ചർമ്മത്തിൽ ഉത്പാദിപ്പിക്കുന്ന വിറ്റാമിൻ?",["Vitamin A","Vitamin B12","Vitamin C","Vitamin D"],3,"സൂര്യപ്രകാശം വിറ്റാമിൻ D ഉത്പാദനത്തിന് സഹായിക്കുന്നു."],
-["Which organ pumps blood in the human body? / രക്തം പമ്പ് ചെയ്യുന്ന അവയവം?",["Lungs","Heart","Kidney","Liver"],1,"ഹൃദയമാണ് ശരീരത്തിലേക്ക് രക്തം പമ്പ് ചെയ്യുന്നത്."],
-["Choose the synonym of 'Brave'. / Brave എന്ന വാക്കിന്റെ പര്യായം?",["Cowardly","Courageous","Weak","Lazy"],1,"Brave = Courageous (ധൈര്യമുള്ള)."],
-["Choose the antonym of 'Ancient'. / Ancient-ന്റെ വിപരീതം?",["Old","Historic","Modern","Past"],2,"Ancient = പുരാതനമായത്; Modern = ആധുനികം."],
-["Choose the correct spelling. / ശരിയായ അക്ഷരവിന്യാസം തിരഞ്ഞെടുക്കുക.",["Seperate","Separate","Seperete","Seprate"],1,"ശരിയായ spelling: Separate."],
-["Fill in the blank: She _____ to school every day.",["go","going","goes","gone"],2,"She എന്ന ഏകവചന subject-നൊപ്പം simple present-ൽ goes ഉപയോഗിക്കുന്നു."],
-["What is the plural of 'Child'? / Child-ന്റെ ബഹുവചനം?",["Childs","Children","Childes","Childrens"],1,"Child-ന്റെ irregular plural Children ആണ്."],
-["Choose the correct article: He is _____ honest man.",["a","an","the","no article"],1,"Honest എന്ന വാക്കിൽ h നിശ്ശബ്ദമാണ്; vowel sound ആയതിനാൽ an."],
-["Choose the opposite of 'Expand'. / Expand-ന്റെ വിപരീതം?",["Increase","Enlarge","Contract","Extend"],2,"Expand = വികസിപ്പിക്കുക; Contract = ചുരുക്കുക."],
-["Identify the verb: 'Birds fly in the sky.' / ക്രിയ കണ്ടെത്തുക.",["Birds","Fly","Sky","The"],1,"Fly ആണ് പ്രവർത്തിയെ സൂചിപ്പിക്കുന്ന verb."],
-["Fill in: I have lived here _____ 2020.",["for","since","from","by"],1,"ഒരു നിശ്ചിത തുടക്കസമയം സൂചിപ്പിക്കുമ്പോൾ since ഉപയോഗിക്കുന്നു."],
-["Choose the correct sentence.",["He don't know.","He doesn't know.","He not know.","He isn't know."],1,"He എന്ന subject-നൊപ്പം doesn't ആണ് ശരി."],
-["What is 7 × 8? / 7 × 8 എത്ര?",["48","54","56","64"],2,"7 × 8 = 56."],
-["Find 15% of 200. / 200-ന്റെ 15% എത്ര?",["20","25","30","35"],2,"200 × 15/100 = 30."],
-["A number divided by 4 gives 12. Find the number. / സംഖ്യ കണ്ടെത്തുക.",["36","40","48","52"],2,"12 × 4 = 48."],
-["What is the perimeter of a square with side 5 cm? / ചുറ്റളവ്?",["10 cm","15 cm","20 cm","25 cm"],2,"ചതുരത്തിന്റെ ചുറ്റളവ് = 4×വശം = 20 cm."],
-["Convert 0.5 into a fraction. / ഭിന്നസംഖ്യയായി എഴുതുക.",["1/4","1/2","2/3","3/4"],1,"0.5 = 5/10 = 1/2."],
-["Which number is divisible by 3? / 3 കൊണ്ട് നിശ്ശേഷം ഹരിക്കാവുന്നത്?",["124","221","315","401"],2,"3+1+5=9; 9, 3 കൊണ്ട് ഹരിക്കാം."],
-["Find the LCM of 4 and 6. / ലസാഘ എത്ര?",["8","10","12","24"],2,"4, 6 എന്നിവയുടെ ഏറ്റവും ചെറിയ പൊതു ഗുണിതം 12."],
-["A person walks 3 km north and 4 km east. How far is the person from the starting point? / ആരംഭസ്ഥാനത്തുനിന്നുള്ള ദൂരം?",["5 km","6 km","7 km","8 km"],0,"3-4-5 സമകോണ ത്രികോണം. ദൂരം 5 km."],
-["Which is the smallest prime number? / ഏറ്റവും ചെറിയ അഭാജ്യസംഖ്യ?",["0","1","2","3"],2,"2 ആണ് ഏറ്റവും ചെറിയ അഭാജ്യസംഖ്യയും ഏക ഇരട്ട അഭാജ്യസംഖ്യയും."],
-["If  x + 15 = 40, find x. / x എത്ര?",["15","20","25","30"],2,"x = 40−15 = 25."],
-["How many days are there in a leap year? / അധിവർഷത്തിൽ എത്ര ദിവസം?",["364","365","366","367"],2,"അധിവർഷത്തിൽ ഫെബ്രുവരിക്ക് 29 ദിവസം; ആകെ 366 ദിവസം."]
-];
+<footer>© 2026 RANK UP | Learn Today, Lead Tomorrow</footer>
 
-let current=0, answers=Array(questions.length).fill(-1), seconds=3600, finished=false;
-const $=id=>document.getElementById(id);
-function render(){
- const q=questions[current];
- $("count").textContent=`Question ${current+1} / ${questions.length}`;
- $("answered").textContent="Answered: "+answers.filter(x=>x!==-1).length;
- $("bar").style.width=((current+1)/questions.length*100)+"%";
- $("question").textContent=q[0];
- $("options").innerHTML=q[1].map((o,i)=>`<label class="option"><input type="radio" name="answer" value="${i}" ${answers[current]===i?"checked":""}> ${String.fromCharCode(65+i)}. ${o}</label>`).join("");
- document.querySelectorAll('input[name="answer"]').forEach(el=>el.addEventListener("change",e=>{answers[current]=Number(e.target.value);$("answered").textContent="Answered: "+answers.filter(x=>x!==-1).length;}));
- $("prev").disabled=current===0;
- $("next").disabled=current===questions.length-1;
-}
-function move(n){if(finished)return;current=Math.max(0,Math.min(questions.length-1,current+n));render();}
-function submitTest(){
- if(finished)return;
- if(!confirm("Submit your test now? / പരീക്ഷ സമർപ്പിക്കട്ടേ?"))return;
- finished=true;clearInterval(clock);
- let correct=0,wrong=0,blank=0;
- questions.forEach((q,i)=>{if(answers[i]===q[2])correct++;else if(answers[i]===-1)blank++;else wrong++;});
- $("test").style.display="none";$("result").style.display="block";
- $("score").textContent=correct+" / "+questions.length;
- $("details").textContent=`Correct: ${correct} | Wrong: ${wrong} | Not Answered: ${blank} | Score: ${correct} marks (practice scoring)`;
- $("review").innerHTML="<h3>Answer Key & Malayalam Explanations</h3>"+questions.map((q,i)=>`<div class="review"><b>Q${i+1}. ${q[0]}</b><br>Your answer: ${answers[i]===-1?"Not answered":q[1][answers[i]]}<br><b>Correct answer: ${q[1][q[2]]}</b><br>${q[3]}</div>`).join("");
- window.scrollTo(0,0);
-}
-function tick(){
- if(finished)return;
- seconds--;
- $("timer").textContent=String(Math.floor(seconds/60)).padStart(2,"0")+":"+String(seconds%60).padStart(2,"0");
- if(seconds<=0){alert("Time is over!");submitTest();}
-}
+<script>
+const bank={
+"SSC MTS":[
+["What is 25% of 240? / 240-ന്റെ 25%?",["40","50","60","80"],2,"240 ÷ 4 = 60."],
+["Find the next number: 2, 6, 12, 20, 30, ? / അടുത്ത സംഖ്യ?",["36","40","42","44"],2,"വ്യത്യാസങ്ങൾ 4,6,8,10,12. ഉത്തരം 42."],
+["Square of 15? / 15-ന്റെ വർഗ്ഗം?",["125","200","225","250"],2,"15 × 15 = 225."],
+["Capital of India? / ഇന്ത്യയുടെ തലസ്ഥാനം?",["Mumbai","Kolkata","New Delhi","Chennai"],2,"ന്യൂഡൽഹിയാണ് ഇന്ത്യയുടെ തലസ്ഥാനം."],
+["Father of Indian Constitution? / ഭരണഘടനയുടെ ശിൽപി?",["Gandhi","Ambedkar","Nehru","Patel"],1,"ഡോ. ബി.ആർ. അംബേദ്കർ."],
+["Largest planet? / ഏറ്റവും വലിയ ഗ്രഹം?",["Earth","Mars","Jupiter","Venus"],2,"വ്യാഴമാണ് ഏറ്റവും വലിയ ഗ്രഹം."],
+["7 × 8 = ?",["48","54","56","64"],2,"7 × 8 = 56."],
+["Smallest prime number? / ഏറ്റവും ചെറിയ അഭാജ്യസംഖ്യ?",["0","1","2","3"],2,"2 ആണ് ഏറ്റവും ചെറിയ അഭാജ്യസംഖ്യ."],
+["Vitamin produced by sunlight? / സൂര്യപ്രകാശം വഴി ലഭിക്കുന്ന വിറ്റാമിൻ?",["A","B","C","D"],3,"സൂര്യപ്രകാശം വിറ്റാമിൻ D ഉത്പാദനത്തിന് സഹായിക്കുന്നു."],
+["National animal of India? / ദേശീയ മൃഗം?",["Lion","Tiger","Elephant","Leopard"],1,"ഇന്ത്യയുടെ ദേശീയ മൃഗം കടുവയാണ്."]
+],
+"SSC GD":[
+["What is 15 × 6? / 15 × 6 എത്ര?",["80","90","100","110"],1,"15 × 6 = 90."],
+["Find the next number: 3, 6, 12, 24, ? / അടുത്ത സംഖ്യ?",["36","42","48","54"],2,"ഓരോ സംഖ്യയും 2 കൊണ്ട് ഗുണിക്കുന്നു."],
+["Who is the Supreme Commander of Indian Armed Forces? / സായുധസേനകളുടെ പരമാധികാരി?",["Prime Minister","President","Defence Minister","Army Chief"],1,"ഇന്ത്യൻ രാഷ്ട്രപതിയാണ് പരമാധികാരി."],
+["Which gas is essential for breathing? / ശ്വസനത്തിന് ആവശ്യമായ വാതകം?",["Carbon dioxide","Oxygen","Nitrogen","Hydrogen"],1,"ഓക്സിജൻ ശ്വസനത്തിന് ആവശ്യമാണ്."],
+["Capital of Kerala? / കേരളത്തിന്റെ തലസ്ഥാനം?",["Kochi","Kozhikode","Thiruvananthapuram","Kannur"],2,"തിരുവനന്തപുരം."],
+["How many sides does a triangle have? / ത്രികോണത്തിന് എത്ര വശങ്ങൾ?",["2","3","4","5"],1,"ത്രികോണത്തിന് 3 വശങ്ങളുണ്ട്."],
+["Synonym of Brave?",["Weak","Courageous","Lazy","Afraid"],1,"Brave = Courageous."],
+["Which is the largest ocean? / ഏറ്റവും വലിയ സമുദ്രം?",["Indian","Atlantic","Pacific","Arctic"],2,"പസഫിക് സമുദ്രമാണ് ഏറ്റവും വലിയത്."],
+["Who discovered gravity? / ഗുരുത്വാകർഷണ നിയമവുമായി ബന്ധപ്പെട്ട ശാസ്ത്രജ്ഞൻ?",["Newton","Einstein","Galileo","Faraday"],0,"ഐസക് ന്യൂട്ടൺ."],
+["How many days are in a leap year? / അധിവർഷത്തിൽ എത്ര ദിവസം?",["365","366","364","367"],1,"അധിവർഷത്തിൽ 366 ദിവസം."]
+],
+"RRB":[
+["A train covers 120 km in 2 hours. Speed? / വേഗത?",["40","50","60","70"],2,"120 ÷ 2 = 60 km/h."],
+["Find LCM of 4 and 6. / ലസാഘ?",["8","10","12","24"],2,"4,6 എന്നിവയുടെ ലസാഘം 12."],
+["What is 3/5 of 100? / 100-ന്റെ 3/5?",["30","40","50","60"],3,"100 × 3/5 = 60."],
+["Which planet is called the Red Planet? / ചുവന്ന ഗ്രഹം?",["Venus","Mars","Jupiter","Saturn"],1,"ചൊവ്വയാണ് ചുവന്ന ഗ്രഹം."],
+["Unit of electric current? / വൈദ്യുത പ്രവാഹത്തിന്റെ യൂണിറ്റ്?",["Volt","Watt","Ampere","Ohm"],2,"ആമ്പിയർ ആണ് യൂണിറ്റ്."],
+["15% of 200?",["20","25","30","35"],2,"200 × 15/100 = 30."],
+["What is the capital of Tamil Nadu?",["Madurai","Chennai","Coimbatore","Salem"],1,"ചെന്നൈ."],
+["Which metal is liquid at room temperature? / സാധാരണ താപനിലയിൽ ദ്രാവകമായ ലോഹം?",["Iron","Mercury","Copper","Gold"],1,"മെർക്കുറി."],
+["How many bones are in an adult human body?",["196","206","216","226"],1,"സാധാരണയായി 206 അസ്ഥികൾ."],
+["Find the square of 12.",["124","144","154","164"],1,"12 × 12 = 144."]
+],
+"Kerala PSC":[
+["Who is known as Kerala's Renaissance leader? / കേരള നവോത്ഥാന നായകൻ?",["Sree Narayana Guru","Vallathol","Kumaran Asan","Ulloor"],0,"ശ്രീനാരായണ ഗുരു കേരള നവോത്ഥാനത്തിലെ പ്രധാന നേതാവാണ്."],
+["First Chief Minister of Kerala? / കേരളത്തിലെ ആദ്യ മുഖ്യമന്ത്രി?",["A.K. Antony","E.M.S. Namboodiripad","K. Karunakaran","C. Achutha Menon"],1,"ഇ.എം.എസ്. നമ്പൂതിരിപ്പാട്."],
+["Kerala was formed in which year? / കേരളം രൂപം കൊണ്ട വർഷം?",["1947","1950","1956","1960"],2,"1956 നവംബർ 1."],
+["Capital of Kerala? / കേരളത്തിന്റെ തലസ്ഥാനം?",["Kochi","Kannur","Kollam","Thiruvananthapuram"],3,"തിരുവനന്തപുരം."],
+["Which is the longest river in Kerala? / കേരളത്തിലെ ഏറ്റവും നീളം കൂടിയ നദി?",["Bharathapuzha","Periyar","Pamba","Chaliyar"],1,"പെരിയാർ."],
+["Who wrote the Malayalam novel Indulekha?",["O. Chandu Menon","Thakazhi","Basheer","M.T."],0,"ഒ. ചന്തുമേനോൻ."],
+["Where is Silent Valley National Park? / സൈലന്റ് വാലി എവിടെ?",["Idukki","Palakkad","Kannur","Kollam"],1,"പാലക്കാട് ജില്ല."],
+["Which is Kerala's state animal? / കേരളത്തിന്റെ സംസ്ഥാന മൃഗം?",["Tiger","Elephant","Lion","Deer"],1,"ആന."],
+["Who founded SNDP Yogam?",["Ayyankali","Sree Narayana Guru","Chattampi Swamikal","Vakkom Moulavi"],1,"ശ്രീനാരായണ ഗുരുവിന്റെ നേതൃത്വത്തിലാണ് SNDP യോഗം സ്ഥാപിച്ചത്."],
+["Which is the highest peak in South India? / ദക്ഷിണേന്ത്യയിലെ ഏറ്റവും ഉയരം കൂടിയ കൊടുമുടി?",["Agasthyarkoodam","Anamudi","Doddabetta","Chembra"],1,"ആനമുടി."]
+]
+};
+
+let exam="",current=0,answers=[],seconds=3600,finished=false,clock;
+function start(name){
+exam=name;current=0;answers=Array(50).fill(-1);seconds=3600;finished=false;
+document.getElementById("home").style.display="none";
+document.getElementById("result").style.display="none";
+document.getElementById("test").style.display="block";
+document.getElementById("examName").textContent=exam+" Mock Test";
 render();
-const clock=setInterval(tick,1000);
+clearInterval(clock);
+clock=setInterval(tick,1000);
+}
+function getQ(i){
+const list=bank[exam];
+if(i<list.length)return list[i];
+return ["Practice question "+(i+1)+" / കൂടുതൽ പരിശീലന ചോദ്യങ്ങൾ ഉടൻ ചേർക്കും.",["Option A","Option B","Option C","Option D"],0,"ഈ ചോദ്യത്തിന് വിശദീകരണം പിന്നീട് ചേർക്കും."];
+}
+function render(){
+let q=getQ(current);
+document.getElementById("count").textContent="Question "+(current+1)+" / 50";
+document.getElementById("answered").textContent="Answered: "+answers.filter(x=>x!==-1).length;
+document.getElementById("bar").style.width=((current+1)/50*100)+"%";
+document.getElementById("question").textContent=q[0];
+document.getElementById("options").innerHTML=q[1].map((v,i)=>`<label class="option"><input type="radio" name="ans" value="${i}" ${answers[current]===i?"checked":""}> ${String.fromCharCode(65+i)}. ${v}</label>`).join("");
+document.querySelectorAll('input[name=ans]').forEach(x=>x.addEventListener("change",e=>{answers[current]=+e.target.value;document.getElementById("answered").textContent="Answered: "+answers.filter(x=>x!==-1).length;}));
+document.getElementById("prev").disabled=current===0;
+document.getElementById("next").disabled=current===49;
+}
+function move(n){current=Math.max(0,Math.min(49,current+n));render();}
+function tick(){
+if(finished)return;
+seconds--;
+document.getElementById("timer").textContent=String(Math.floor(seconds/60)).padStart(2,"0")+":"+String(seconds%60).padStart(2,"0");
+if(seconds<=0)submitTest(true);
+}
+function submitTest(auto=false){
+if(finished)return;
+if(!auto&&!confirm("Submit your test?"))return;
+finished=true;clearInterval(clock);
+let correct=0,wrong=0,blank=0;
+for(let i=0;i<50;i++){
+let q=getQ(i);
+if(answers[i]===-1)blank++;
+else if(answers[i]===q[2])correct++;
+else wrong++;
+}
+document.getElementById("test").style.display="none";
+document.getElementById("result").style.display="block";
+document.getElementById("score").textContent=correct+" / 50";
+document.getElementById("details").textContent="Correct: "+correct+" | Wrong: "+wrong+" | Not answered: "+blank;
+document.getElementById("review").innerHTML="<h3>Answer Key & Explanations</h3>"+Array.from({length:50},(_,i)=>{let q=getQ(i);return `<div class="review"><b>Q${i+1}. ${q[0]}</b><br>Your answer: ${answers[i]<0?"Not answered":q[1][answers[i]]}<br><b>Correct: ${q[1][q[2]]}</b><br>${q[3]}</div>`}).join("");
+window.scrollTo(0,0);
+}
+function home(){
+clearInterval(clock);
+document.getElementById("test").style.display="none";
+document.getElementById("result").style.display="none";
+document.getElementById("home").style.display="block";
+}
 </script>
 </body>
 </html>
