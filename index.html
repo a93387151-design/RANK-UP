@@ -4,192 +4,297 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RANK UP - SSC MTS</title>
+<title>RANK UP - SSC MTS Full Mock</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f2f5fb;color:#17233d}
-header{background:#142b55;color:white;text-align:center;padding:22px}
-header h1{margin:0;font-size:30px;letter-spacing:2px}
-header p{margin:8px 0 0}
-main{max-width:760px;margin:20px auto;padding:12px}
-.card{background:white;padding:20px;border-radius:14px;margin-bottom:15px;box-shadow:0 3px 12px #0001}
-.exam{display:block;width:100%;padding:17px;margin:10px 0;border:0;border-radius:10px;background:#e8efff;color:#17366c;font-size:18px;font-weight:bold;text-align:left}
-button{cursor:pointer}
-.primary{background:#1764d8;color:white;border:0;border-radius:9px;padding:13px 20px;font-size:16px}
-.secondary{background:#e7edf7;color:#18345f;border:0;border-radius:9px;padding:12px 17px;font-size:15px}
-.option{display:block;width:100%;text-align:left;background:#f3f6fc;border:2px solid #e1e8f3;padding:13px;margin:9px 0;border-radius:9px;font-size:16px}
-.option.selected{border-color:#1764d8;background:#e7efff}
-.option.correct{border-color:#16834a;background:#e5f8ed}
-.option.wrong{border-color:#d33;background:#fff0f0}
-.top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-weight:bold;color:#24436e}
+body{margin:0;font-family:Arial,sans-serif;background:#f1f5f9;color:#172033}
+header{background:#102b55;color:white;text-align:center;padding:20px}
+header h1{margin:0;font-size:28px}
+header p{margin:7px 0 0}
+.container{max-width:850px;margin:18px auto;padding:14px}
+.card{background:white;padding:18px;border-radius:14px;margin-bottom:15px;box-shadow:0 3px 12px #0001}
+button{border:0;border-radius:9px;padding:12px 17px;background:#155eef;color:white;font-weight:bold;margin:5px;cursor:pointer}
+button:disabled{background:#aaa}
+.secondary{background:#475569}
+.option{display:block;width:100%;text-align:left;background:#eef3fb;color:#172033;margin:9px 0;border:2px solid transparent}
+.option.selected{border-color:#155eef;background:#dbeafe}
+.small{color:#64748b;font-size:13px}
+#timer{font-size:22px;font-weight:bold;color:#dc2626}
 #question{font-size:19px;line-height:1.5}
-#malayalam{font-size:17px;color:#354b70;line-height:1.5}
-#explanation{background:#edf7ef;padding:13px;border-radius:9px;margin-top:12px;line-height:1.5}
+#malayalam{font-size:17px;color:#334155;line-height:1.5}
+#result{line-height:1.8}
+.progress{height:8px;background:#e2e8f0;border-radius:10px;overflow:hidden}
+#bar{height:8px;background:#155eef;width:0}
 .hidden{display:none}
-footer{text-align:center;color:#667;margin:25px}
+.review{border-bottom:1px solid #ddd;padding:12px 0}
+.correct{color:green}.wrong{color:#dc2626}
 </style>
 </head>
 <body>
 <header>
-<h1>RANK UP</h1>
-<p>Free Competitive Exam Preparation | സൗജന്യ പരീക്ഷാ പരിശീലനം</p>
+<h1>🚀 RANK UP</h1>
+<p>SSC MTS & Havaldar | Full Mock Test</p>
+<p>Free Competitive Exam Preparation</p>
 </header>
-<main>
-<section id="home" class="card">
-<h2>Choose Your Exam / പരീക്ഷ തിരഞ്ഞെടുക്കുക</h2>
-<button class="exam" onclick="startTest()">SSC MTS – 50 Questions</button>
-<button class="exam" onclick="comingSoon('SSC GD')">SSC GD – Coming Soon</button>
-<button class="exam" onclick="comingSoon('RRB')">RRB – Coming Soon</button>
-<button class="exam" onclick="comingSoon('Kerala PSC')">Kerala PSC – Coming Soon</button>
-<p>Daily Practice • English + Malayalam • Free for Everyone</p>
-</section>
 
-<section id="test" class="card hidden">
-<div class="top">
-<span id="progress">Question 1 / 50</span>
-<span id="timer">60:00</span>
-<span id="answered">Answered: 0</span>
+<div class="container">
+<div class="card" id="home">
+<h2>SSC MTS Full Mock Test</h2>
+<p><b>Total Questions:</b> 90 | <b>Total Marks:</b> 270</p>
+<p><b>Session I:</b> Maths 20 + Reasoning 20 | 45 Minutes</p>
+<p><b>Session II:</b> General Awareness 25 + English 25 | 45 Minutes</p>
+<p>Session I: Wrong answer penalty ഇല്ല.</p>
+<p>Session II: Wrong answer-ന് 1 mark കുറയും.</p>
+<p class="small">All questions in this practice set are marked New Pattern Practice. Verified PYQs will be added separately with their year/shift details.</p>
+<button onclick="startTest()">START MOCK TEST</button>
 </div>
-<hr>
-<p id="question"></p>
+
+<div class="card hidden" id="test">
+<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
+<b id="sectionName">Session I</b>
+<span id="timer">45:00</span>
+</div>
+<div class="progress"><div id="bar"></div></div>
+<p class="small" id="counter"></p>
+<p class="small">New Pattern Practice</p>
+<h3 id="question"></h3>
 <p id="malayalam"></p>
 <div id="options"></div>
-<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:18px">
-<button class="secondary" onclick="previous()">Previous</button>
-<button class="primary" onclick="next()">Next</button>
-<button class="secondary" onclick="submitTest()">Submit Test</button>
+<div style="display:flex;justify-content:space-between;flex-wrap:wrap">
+<button class="secondary" onclick="previousQ()">Previous</button>
+<button onclick="nextQ()">Next</button>
 </div>
-</section>
+<div style="text-align:center">
+<button class="secondary" onclick="clearAnswer()">Clear Answer</button>
+<button onclick="submitSession()">Submit Session</button>
+</div>
+</div>
 
-<section id="result" class="card hidden">
-<h2>Test Result / പരീക്ഷാഫലം</h2>
-<h1 id="score"></h1>
-<p id="resultText"></p>
-<div id="review"></div>
-<button class="primary" onclick="backHome()">Home</button>
-</section>
-</main>
-<footer>RANK UP | Learn • Practice • Succeed</footer>
+<div class="card hidden" id="result">
+<h2>Mock Test Result</h2>
+<div id="score"></div>
+<button onclick="showReview()">VIEW ANSWERS & EXPLANATIONS</button>
+<button class="secondary" onclick="location.reload()">RESTART TEST</button>
+</div>
+
+<div class="card hidden" id="review">
+<h2>Answer Key & Malayalam Explanations</h2>
+<div id="reviewList"></div>
+<button onclick="location.reload()">BACK TO HOME</button>
+</div>
+</div>
 
 <script>
-const questions = [
-["What is 25% of 240?","240-ന്റെ 25% എത്ര?",["40","50","60","70"],2,"25% = 1/4. 240 ÷ 4 = 60."],
-["Find the next number: 2, 6, 12, 20, 30, ?","അടുത്ത സംഖ്യ കണ്ടെത്തുക: 2, 6, 12, 20, 30, ?",["36","40","42","44"],2,"വ്യത്യാസങ്ങൾ 4, 6, 8, 10, 12 ആണ്. 30 + 12 = 42."],
-["The HCF of 18 and 24 is:","18-ന്റെയും 24-ന്റെയും HCF എത്ര?",["3","6","9","12"],1,"18, 24 എന്നിവയുടെ ഏറ്റവും വലിയ പൊതു ഘടകം 6 ആണ്."],
-["A man buys an item for ₹400 and sells it for ₹500. Profit percentage?","₹400-ന് വാങ്ങിയ സാധനം ₹500-ന് വിറ്റാൽ ലാഭശതമാനം എത്ര?",["20%","25%","30%","15%"],1,"ലാഭം = 100. ലാഭശതമാനം = 100/400 × 100 = 25%."],
-["Simplify: 15 × 4 ÷ 3","ലഘൂകരിക്കുക: 15 × 4 ÷ 3",["15","20","25","30"],1,"15 × 4 = 60; 60 ÷ 3 = 20."],
-["If 5 pens cost ₹60, what is the cost of 8 pens?","5 പേനയ്ക്ക് ₹60 ആണെങ്കിൽ 8 പേനയുടെ വില എത്ര?",["₹84","₹90","₹96","₹100"],2,"ഒരു പേനയുടെ വില ₹12. 8 × 12 = ₹96."],
-["Find the average of 10, 20, 30, 40.","10, 20, 30, 40 എന്നിവയുടെ ശരാശരി എത്ര?",["20","25","30","35"],1,"ആകെ 100. 100 ÷ 4 = 25."],
-["A train travels 120 km in 2 hours. Find its speed.","ഒരു ട്രെയിൻ 2 മണിക്കൂറിൽ 120 km സഞ്ചരിക്കുന്നു. വേഗത എത്ര?",["40 km/h","50 km/h","60 km/h","70 km/h"],2,"വേഗത = ദൂരം / സമയം = 120/2 = 60 km/h."],
-["What is the square of 17?","17-ന്റെ വർഗം എത്ര?",["279","289","299","309"],1,"17 × 17 = 289."],
-["Find 3/5 of 100.","100-ന്റെ 3/5 എത്ര?",["40","50","60","70"],2,"100 × 3/5 = 60."],
-["A number increased by 15 becomes 45. Find the number.","ഒരു സംഖ്യയോട് 15 കൂട്ടിയാൽ 45 കിട്ടുന്നു. സംഖ്യ ഏത്?",["25","30","35","40"],1,"45 - 15 = 30."],
-["The perimeter of a square with side 8 cm is:","8 cm വശമുള്ള സമചതുരത്തിന്റെ ചുറ്റളവ് എത്ര?",["16 cm","24 cm","32 cm","64 cm"],2,"ചുറ്റളവ് = 4 × വശം = 4 × 8 = 32 cm."],
-["What is 0.5 × 0.2?","0.5 × 0.2 എത്ര?",["0.01","0.1","1","10"],1,"5 × 2 = 10; രണ്ട് decimal സ്ഥാനങ്ങൾ ചേർത്താൽ 0.10 = 0.1."],
-["Find the LCM of 4 and 6.","4-ന്റെയും 6-ന്റെയും LCM എത്ര?",["8","10","12","24"],2,"4, 6 എന്നിവയുടെ ഏറ്റവും ചെറിയ പൊതു ഗുണിതം 12 ആണ്."],
-["A shop gives 10% discount on ₹500. Selling price?","₹500-ന് 10% വിലക്കുറവ് നൽകിയാൽ വിൽപ്പനവില എത്ര?",["₹400","₹425","₹450","₹475"],2,"വിലക്കുറവ് ₹50. വിൽപ്പനവില = ₹500 - ₹50 = ₹450."],
-["Choose the odd one out: 3, 5, 7, 9","വ്യത്യസ്തമായത് കണ്ടെത്തുക: 3, 5, 7, 9",["3","5","7","9"],3,"3, 5, 7 അഭാജ്യസംഖ്യകളാണ്. 9 ഒരു അഭാജ്യസംഖ്യയല്ല."],
-["Complete the series: A, C, E, G, ?","ശ്രേണി പൂർത്തിയാക്കുക: A, C, E, G, ?",["H","I","J","K"],1,"ഓരോ തവണയും ഒരു അക്ഷരം ഒഴിവാക്കുന്നു. അടുത്തത് I."],
-["If CAT is coded as DBU, how is DOG coded?","CAT എന്നത് DBU ആണെങ്കിൽ DOG എങ്ങനെ എഴുതാം?",["EPH","EOG","FPH","DPH"],0,"ഓരോ അക്ഷരത്തിനും അടുത്ത അക്ഷരം ഉപയോഗിക്കുന്നു. D→E, O→P, G→H."],
-["Ravi is facing North. He turns right. Which direction is he facing?","രവി വടക്കോട്ട് നോക്കി നിൽക്കുന്നു. വലത്തോട്ട് തിരിഞ്ഞാൽ ഏത് ദിശ?",["South","East","West","North"],1,"വടക്കിന്റെ വലതുവശം കിഴക്കാണ്."],
-["Find the missing number: 5, 10, 20, 40, ?","കാണാതായ സംഖ്യ കണ്ടെത്തുക: 5, 10, 20, 40, ?",["45","60","80","100"],2,"ഓരോ സംഖ്യയും 2 കൊണ്ട് ഗുണിക്കുന്നു. 40 × 2 = 80."],
-["Which is different? Apple, Mango, Carrot, Banana","വ്യത്യസ്തമായത് ഏത്? Apple, Mango, Carrot, Banana",["Apple","Mango","Carrot","Banana"],2,"Carrot ഒരു പച്ചക്കറിയാണ്; ബാക്കിയുള്ളവ പഴങ്ങളാണ്."],
-["If today is Monday, what day will it be after 10 days?","ഇന്ന് തിങ്കളാഴ്ചയാണെങ്കിൽ 10 ദിവസത്തിന് ശേഷം ഏത് ദിവസം?",["Wednesday","Thursday","Friday","Saturday"],1,"10 ÷ 7 ശേഷി 3. തിങ്കളാഴ്ചയ്ക്ക് 3 ദിവസം ശേഷം വ്യാഴാഴ്ച."],
-["Find the next letter: B, D, G, K, P, ?","അടുത്ത അക്ഷരം കണ്ടെത്തുക: B, D, G, K, P, ?",["T","U","V","W"],2,"വ്യത്യാസം +2, +3, +4, +5, അടുത്തത് +6. P-യ്ക്ക് ശേഷം V."],
-["A is taller than B. B is taller than C. Who is the shortest?","A-യ്ക്ക് B-നേക്കാൾ ഉയരമുണ്ട്. B-യ്ക്ക് C-നേക്കാൾ ഉയരമുണ്ട്. ഏറ്റവും ഉയരം കുറഞ്ഞത് ആര്?",["A","B","C","Cannot say"],2,"A > B > C. അതിനാൽ C ആണ് ഏറ്റവും ഉയരം കുറഞ്ഞത്."],
-["How many sides does a hexagon have?","ഒരു ഷഡ്ഭുജത്തിന് എത്ര വശങ്ങളുണ്ട്?",["5","6","7","8"],1,"Hexagon എന്നത് ആറ് വശങ്ങളുള്ള ആകൃതിയാണ്."],
-["Who is known as the Father of the Indian Constitution?","ഇന്ത്യൻ ഭരണഘടനയുടെ പിതാവ് എന്നറിയപ്പെടുന്നത് ആര്?",["Mahatma Gandhi","Dr. B. R. Ambedkar","Jawaharlal Nehru","Sardar Patel"],1,"ഡോ. ബി. ആർ. അംബേദ്കർ ഭരണഘടനാ രൂപീകരണ സമിതിയുടെ അധ്യക്ഷനായിരുന്നു."],
-["What is the capital of India?","ഇന്ത്യയുടെ തലസ്ഥാനം ഏത്?",["Mumbai","Chennai","New Delhi","Kolkata"],2,"ന്യൂഡൽഹിയാണ് ഇന്ത്യയുടെ തലസ്ഥാനം."],
-["Which is the national animal of India?","ഇന്ത്യയുടെ ദേശീയ മൃഗം ഏത്?",["Lion","Tiger","Elephant","Leopard"],1,"ബംഗാൾ കടുവയാണ് ഇന്ത്യയുടെ ദേശീയ മൃഗം."],
-["Which planet is known as the Red Planet?","ചുവന്ന ഗ്രഹം എന്നറിയപ്പെടുന്നത് ഏത്?",["Venus","Mars","Jupiter","Saturn"],1,"ഇരുമ്പ് ഓക്സൈഡ് കാരണം ചൊവ്വയ്ക്ക് ചുവപ്പ് നിറം കാണപ്പെടുന്നു."],
-["Who was the first President of India?","ഇന്ത്യയുടെ ആദ്യ രാഷ്ട്രപതി ആര്?",["Dr. Rajendra Prasad","Dr. Radhakrishnan","Zakir Husain","V. V. Giri"],0,"ഡോ. രാജേന്ദ്ര പ്രസാദ് ആയിരുന്നു ഇന്ത്യയുടെ ആദ്യ രാഷ്ട്രപതി."],
-["Which is the largest state in India by area?","വിസ്തീർണ്ണത്തിൽ ഇന്ത്യയിലെ ഏറ്റവും വലിയ സംസ്ഥാനം ഏത്?",["Madhya Pradesh","Maharashtra","Rajasthan","Uttar Pradesh"],2,"വിസ്തീർണ്ണത്തിൽ രാജസ്ഥാനാണ് ഇന്ത്യയിലെ ഏറ്റവും വലിയ സംസ്ഥാനം."],
-["Where is the headquarters of ISRO?","ISRO-യുടെ ആസ്ഥാനം എവിടെയാണ്?",["New Delhi","Bengaluru","Hyderabad","Mumbai"],1,"ISRO-യുടെ ആസ്ഥാനം ബെംഗളൂരുവിലാണ്."],
-["Which gas do plants absorb during photosynthesis?","പ്രകാശസംശ്ലേഷണ സമയത്ത് സസ്യങ്ങൾ ആഗിരണം ചെയ്യുന്ന വാതകം ഏത്?",["Oxygen","Nitrogen","Carbon dioxide","Hydrogen"],2,"സസ്യങ്ങൾ പ്രകാശസംശ്ലേഷണത്തിന് കാർബൺ ഡൈ ഓക്സൈഡ് ഉപയോഗിക്കുന്നു."],
-["What is the currency of Japan?","ജപ്പാന്റെ നാണയം ഏത്?",["Yuan","Yen","Won","Dollar"],1,"ജപ്പാന്റെ ഔദ്യോഗിക നാണയം യെൻ ആണ്."],
-["Which is the longest river in India?","ഇന്ത്യയിലെ ഏറ്റവും നീളം കൂടിയ നദി ഏത്?",["Yamuna","Ganga","Godavari","Narmada"],1,"ഇന്ത്യയ്ക്കുള്ളിലെ ഒഴുക്കിന്റെ അടിസ്ഥാനത്തിൽ ഗംഗയാണ് ഏറ്റവും നീളം കൂടിയ നദി."],
-["Who wrote the Indian national anthem?","ഇന്ത്യൻ ദേശീയഗാനം രചിച്ചത് ആര്?",["Bankim Chandra Chatterjee","Rabindranath Tagore","Sarojini Naidu","Subramania Bharati"],1,"ജനഗണമന രചിച്ചത് രവീന്ദ്രനാഥ ടാഗോറാണ്."],
-["Which organ pumps blood in the human body?","മനുഷ്യശരീരത്തിൽ രക്തം പമ്പ് ചെയ്യുന്ന അവയവം ഏത്?",["Lungs","Brain","Heart","Kidney"],2,"ഹൃദയമാണ് ശരീരത്തിലുടനീളം രക്തം പമ്പ് ചെയ്യുന്നത്."],
-["What is the chemical symbol of water?","വെള്ളത്തിന്റെ രാസസൂത്രം ഏത്?",["CO2","H2O","O2","NaCl"],1,"രണ്ട് ഹൈഡ്രജൻ ആറ്റങ്ങളും ഒരു ഓക്സിജൻ ആറ്റവും ചേർന്നതാണ് H2O."],
-["Which festival is known as the festival of lights?","ദീപങ്ങളുടെ ഉത്സവം എന്നറിയപ്പെടുന്നത് ഏത്?",["Onam","Diwali","Holi","Eid"],1,"ദീപാവലി ദീപങ്ങളുടെ ഉത്സവം എന്നറിയപ്പെടുന്നു."],
-["Choose the synonym of 'Happy'.","'Happy' എന്ന വാക്കിന്റെ സമാനാർത്ഥം തിരഞ്ഞെടുക്കുക.",["Sad","Joyful","Angry","Weak"],1,"Joyful എന്നതിന് സന്തോഷമുള്ള എന്നർത്ഥമാണ്."],
-["Choose the antonym of 'Ancient'.","'Ancient' എന്ന വാക്കിന്റെ വിപരീതപദം തിരഞ്ഞെടുക്കുക.",["Old","Historic","Modern","Past"],2,"Ancient = പുരാതനമായത്; Modern = ആധുനികമായത്."],
-["Fill in the blank: She ___ to school every day.","ശൂന്യസ്ഥലം പൂരിപ്പിക്കുക: She ___ to school every day.",["go","going","goes","gone"],2,"She എന്ന ഏകവചന subject-നൊപ്പം present simple-ൽ goes ഉപയോഗിക്കുന്നു."],
-["Choose the correctly spelt word.","ശരിയായ അക്ഷരവിന്യാസമുള്ള വാക്ക് തിരഞ്ഞെടുക്കുക.",[" recieve","receive","receeve","receve"],1,"ശരിയായ spelling receive ആണ്."],
-["What is the plural of 'Child'?","Child എന്നതിന്റെ ബഹുവചനം ഏത്?",["Childs","Childes","Children","Childrens"],2,"Child എന്നതിന്റെ irregular plural ആണ് Children."],
-["Choose the opposite of 'Victory'.","Victory എന്നതിന്റെ വിപരീതം ഏത്?",["Success","Defeat","Win","Achievement"],1,"Victory = വിജയം; Defeat = പരാജയം."],
-["Fill in the blank: I have ___ apple.","ശൂന്യസ്ഥലം പൂരിപ്പിക്കുക: I have ___ apple.",["a","an","the","no article"],1,"Apple എന്ന വാക്ക് vowel sound-ൽ തുടങ്ങുന്നതിനാൽ an ഉപയോഗിക്കുന്നു."],
-["Choose the synonym of 'Brave'.","Brave എന്നതിന്റെ സമാനാർത്ഥം ഏത്?",["Cowardly","Courageous","Lazy","Careless"],1,"Courageous എന്നതിന് ധൈര്യമുള്ള എന്നർത്ഥമാണ്."],
-["Identify the noun: 'The boy runs fast.'","'The boy runs fast.' എന്ന വാക്യത്തിലെ നാമം കണ്ടെത്തുക.",["The","Boy","Runs","Fast"],1,"Boy ഒരു വ്യക്തിയെ സൂചിപ്പിക്കുന്ന നാമമാണ്."],
-["Choose the correct sentence.","ശരിയായ വാക്യം തിരഞ്ഞെടുക്കുക.",["He are a student.","He is a student.","He am a student.","He be a student."],1,"He എന്ന subject-നൊപ്പം is ആണ് ശരിയായ helping verb."],
-["What is the past tense of 'Go'?","Go എന്ന ക്രിയയുടെ ഭൂതകാലം ഏത്?",["Goed","Gone","Went","Going"],2,"Go എന്നതിന്റെ simple past form Went ആണ്."],
-["Choose the antonym of 'Expand'.","Expand എന്നതിന്റെ വിപരീതപദം ഏത്?",["Increase","Enlarge","Contract","Extend"],2,"Expand = വികസിപ്പിക്കുക; Contract = ചുരുക്കുക."],
-["Fill in the blank: They ___ playing cricket.","ശൂന്യസ്ഥലം പൂരിപ്പിക്കുക: They ___ playing cricket.",["is","am","are","was"],2,"They എന്ന plural subject-നൊപ്പം are ഉപയോഗിക്കുന്നു."]
+const sections = [
+{ name:"Session I - Numerical Ability", time:45, start:0, end:20, negative:0 },
+{ name:"Session I - Reasoning Ability", time:45, start:20, end:40, negative:0 },
+{ name:"Session II - General Awareness", time:45, start:40, end:65, negative:1 },
+{ name:"Session II - English", time:45, start:65, end:90, negative:1 }
 ];
 
-let current=0, answers={}, seconds=3600, clock=null, finished=false;
+const Q = [
+/* MATHS 1-20 */
+["What is 25% of 240?","240-ന്റെ 25% എത്ര?","48|50|60|65",2,"25% = 1/4. 240 ÷ 4 = 60."],
+["Find the HCF of 24 and 36.","24, 36 എന്നിവയുടെ HCF എത്ര?","6|8|12|18",2,"24, 36 എന്നിവയെ ഹരിക്കുന്ന ഏറ്റവും വലിയ സംഖ്യ 12 ആണ്."],
+["Find the LCM of 8 and 12.","8, 12 എന്നിവയുടെ LCM എത്ര?","16|20|24|36",2,"8-ന്റെയും 12-ന്റെയും ഏറ്റവും ചെറിയ പൊതു ഗുണിതം 24 ആണ്."],
+["A man buys an article for ₹500 and sells it for ₹600. Find profit percentage.","₹500-ന് വാങ്ങിയ സാധനം ₹600-ന് വിറ്റാൽ ലാഭശതമാനം എത്ര?","10%|15%|20%|25%",2,"ലാഭം = 600 - 500 = 100. ലാഭശതമാനം = 100/500 × 100 = 20%."],
+["Find the simple interest on ₹1000 at 5% per annum for 2 years.","₹1000-ന് 5% നിരക്കിൽ 2 വർഷത്തെ സാധാരണ പലിശ എത്ര?","₹50|₹100|₹150|₹200",1,"SI = P × R × T / 100 = 1000 × 5 × 2 / 100 = ₹100."],
+["A train travels 120 km in 2 hours. Find its speed.","ഒരു ട്രെയിൻ 2 മണിക്കൂറിൽ 120 km സഞ്ചരിക്കുന്നു. വേഗത എത്ര?","40 km/h|50 km/h|60 km/h|80 km/h",2,"വേഗത = ദൂരം / സമയം = 120/2 = 60 km/h."],
+["Simplify: 18 + 6 × 4.","ലഘൂകരിക്കുക: 18 + 6 × 4","42|48|96|72",0,"ആദ്യം ഗുണനം: 6 × 4 = 24. തുടർന്ന് 18 + 24 = 42."],
+["What is the square of 17?","17-ന്റെ വർഗം എത്ര?","279|289|299|309",1,"17 × 17 = 289."],
+["A number is increased from 80 to 100. Find the percentage increase.","80-ൽ നിന്ന് 100 ആയി വർധിച്ചാൽ ശതമാന വർധന എത്ര?","20%|25%|30%|40%",1,"വർധന = 20. ശതമാനം = 20/80 × 100 = 25%."],
+["The average of 10, 20, 30 and 40 is:","10, 20, 30, 40 എന്നിവയുടെ ശരാശരി എത്ര?","20|25|30|35",1,"ശരാശരി = (10+20+30+40)/4 = 25."],
+["If 5 pens cost ₹50, what is the cost of 8 pens?","5 പേനയ്ക്ക് ₹50 ആണെങ്കിൽ 8 പേനയ്ക്ക് എത്ര?","₹70|₹75|₹80|₹90",2,"ഒരു പേനയുടെ വില ₹10. 8 പേനയ്ക്ക് ₹80."],
+["A man completes a work in 10 days. What part of work does he do in one day?","ഒരു ജോലി 10 ദിവസം കൊണ്ട് തീർക്കുന്നയാൾ ഒരു ദിവസം ചെയ്യുന്ന ജോലി എത്ര?","1/5|1/10|1/2|1/20",1,"ഒരു ദിവസത്തെ ജോലി = 1/10."],
+["Find 3/4 of 200.","200-ന്റെ 3/4 എത്ര?","100|125|150|175",2,"200 × 3/4 = 150."],
+["A shop gives 10% discount on ₹800. Find selling price.","₹800-ന് 10% വിലക്കുറവ് നൽകിയാൽ വിൽപ്പനവില എത്ര?","₹700|₹710|₹720|₹740",2,"കുറവ് = ₹80. വിൽപ്പനവില = 800 - 80 = ₹720."],
+["Find the perimeter of a square of side 9 cm.","9 cm വശമുള്ള സമചതുരത്തിന്റെ ചുറ്റളവ് എത്ര?","18 cm|27 cm|36 cm|81 cm",2,"ചുറ്റളവ് = 4 × വശം = 4 × 9 = 36 cm."],
+["Find the area of a rectangle of length 12 cm and breadth 5 cm.","നീളം 12 cm, വീതി 5 cm ആയ ദീർഘചതുരത്തിന്റെ വിസ്തീർണം എത്ര?","17|34|60|120 cm²",2,"വിസ്തീർണം = നീളം × വീതി = 12 × 5 = 60 cm²."],
+["Convert 0.75 into a fraction.","0.75 ഭിന്നസംഖ്യയായി എഴുതുക.","1/2|2/3|3/4|4/5",2,"0.75 = 75/100 = 3/4."],
+["If x + 15 = 40, find x.","x + 15 = 40 ആണെങ്കിൽ x എത്ര?","15|20|25|30",2,"x = 40 - 15 = 25."],
+["Find the next number: 7, 14, 21, 28, __","അടുത്ത സംഖ്യ കണ്ടെത്തുക: 7, 14, 21, 28, __","30|32|35|42",2,"ഓരോ തവണയും 7 കൂട്ടുന്നു. അടുത്തത് 35."],
+["A person travels 150 km at 50 km/h. Find time taken.","50 km/h വേഗത്തിൽ 150 km സഞ്ചരിക്കാൻ എത്ര സമയം വേണം?","2 hours|3 hours|4 hours|5 hours",1,"സമയം = ദൂരം / വേഗത = 150/50 = 3 മണിക്കൂർ."],
+
+/* REASONING 21-40 */
+["Find the next number: 2, 4, 8, 16, __","അടുത്ത സംഖ്യ കണ്ടെത്തുക: 2, 4, 8, 16, __","20|24|30|32",3,"ഓരോ സംഖ്യയും 2 കൊണ്ട് ഗുണിക്കുന്നു. അടുത്തത് 32."],
+["Find the odd one out.","വ്യത്യസ്തമായത് കണ്ടെത്തുക.","Apple|Mango|Carrot|Banana",2,"Carrot ഒരു പച്ചക്കറിയാണ്; മറ്റുള്ളവ പഴങ്ങളാണ്."],
+["If CAT is coded as DBU, how is DOG coded?","CAT = DBU ആണെങ്കിൽ DOG എങ്ങനെ എഴുതും?","EPH|EOG|DPH|FQI",0,"ഓരോ അക്ഷരത്തിനും അടുത്ത അക്ഷരം: D→E, O→P, G→H."],
+["Complete the series: A, C, E, G, __","ശ്രേണി പൂർത്തിയാക്കുക: A, C, E, G, __","H|I|J|K",1,"ഓരോ തവണയും ഒരു അക്ഷരം വിട്ട് അടുത്തത്. ഉത്തരം I."],
+["Ravi is taller than Ajay. Ajay is taller than Biju. Who is shortest?","രവി അജയിനെക്കാൾ ഉയരം കൂടിയവൻ. അജയ് ബിജുവിനെക്കാൾ ഉയരം കൂടിയവൻ. ഏറ്റവും കുറവ് ഉയരം ആര്?","Ravi|Ajay|Biju|Cannot say",2,"രവി > അജയ് > ബിജു. അതിനാൽ ബിജുവാണ് ഏറ്റവും കുറവ് ഉയരം."],
+["How many sides does a hexagon have?","ഷഡ്ഭുജത്തിന് എത്ര വശങ്ങളുണ്ട്?","5|6|7|8",1,"Hexagon എന്നത് 6 വശങ്ങളുള്ള ബഹുഭുജമാണ്."],
+["Find the missing number: 3, 6, 9, 12, __","വിട്ടുപോയ സംഖ്യ കണ്ടെത്തുക: 3, 6, 9, 12, __","13|14|15|18",2,"ഓരോ തവണയും 3 കൂട്ടുന്നു. അടുത്തത് 15."],
+["If today is Monday, what day will it be after 10 days?","ഇന്ന് തിങ്കളാഴ്ചയാണെങ്കിൽ 10 ദിവസം കഴിഞ്ഞ് ഏത് ദിവസം?","Wednesday|Thursday|Friday|Saturday",1,"10 ÷ 7 ശേഷി 3. തിങ്കളാഴ്ചയ്ക്ക് 3 ദിവസം ശേഷം വ്യാഴം."],
+["Choose the pair that is similar: Bird : Fly :: Fish : ?","സമാനമായ ജോഡി തിരഞ്ഞെടുക്കുക: പക്ഷി : പറക്കുക :: മത്സ്യം : ?","Run|Swim|Walk|Climb",1,"പക്ഷി പറക്കുന്നു; മത്സ്യം നീന്തുന്നു."],
+["Find the next letter: Z, X, V, T, __","അടുത്ത അക്ഷരം കണ്ടെത്തുക: Z, X, V, T, __","R|S|Q|P",0,"ഓരോ തവണയും ഒരു അക്ഷരം പിന്നോട്ട് പോകുന്നു. അടുത്തത് R."],
+["Which number is different?","വ്യത്യസ്ത സംഖ്യ ഏത്?","4|9|16|20",3,"4, 9, 16 എന്നിവ പൂർണ്ണ വർഗങ്ങളാണ്. 20 അല്ല."],
+["If 1 = 3, 2 = 6, 3 = 9, then 5 = ?","1 = 3, 2 = 6, 3 = 9 എങ്കിൽ 5 = ?","10|12|15|18",2,"ഓരോ സംഖ്യയും 3 കൊണ്ട് ഗുണിക്കുന്നു. 5 × 3 = 15."],
+["A is the brother of B. B is the sister of C. How is A related to C?","A, B-യുടെ സഹോദരനാണ്. B, C-യുടെ സഹോദരിയാണ്. A-യ്ക്ക് C-യുമായുള്ള ബന്ധം?","Brother|Sister|Father|Uncle",0,"A പുരുഷ സഹോദരനാണ്; B, C-യുടെ സഹോദരിയാണ്. അതിനാൽ A, C-യുടെ സഹോദരൻ."],
+["Arrange in ascending order: 45, 12, 30, 8.","ചെറുതിൽ നിന്ന് വലുതിലേക്ക് ക്രമീകരിക്കുക: 45, 12, 30, 8.","8,12,30,45|12,8,30,45|45,30,12,8|8,30,12,45",0,"ആരോഹണക്രമം: 8, 12, 30, 45."],
+["Find the missing term: AZ, BY, CX, __","വിട്ടുപോയ പദം കണ്ടെത്തുക: AZ, BY, CX, __","DW|DV|EX|EW",0,"ആദ്യ അക്ഷരം മുന്നോട്ട്: A,B,C,D. രണ്ടാമത്തേത് പിന്നോട്ട്: Z,Y,X,W."],
+["Which is the opposite direction of North-East?","വടക്ക്-കിഴക്കിന്റെ വിപരീത ദിശ ഏത്?","South-East|South-West|North-West|East",1,"North-East-ന്റെ വിപരീത ദിശ South-West ആണ്."],
+["If BOOK is coded as CPPL, then PEN is coded as:","BOOK = CPPL ആണെങ്കിൽ PEN എങ്ങനെ എഴുതും?","QFO|QEN|PFM|RFO",0,"ഓരോ അക്ഷരത്തിനും അടുത്ത അക്ഷരം: P→Q, E→F, N→O."],
+["Select the odd one out.","വ്യത്യസ്തമായത് കണ്ടെത്തുക.","January|March|May|Monday",3,"January, March, May മാസങ്ങളാണ്. Monday ആഴ്ചയിലെ ദിവസമാണ്."],
+["Complete: 1, 4, 9, 16, __","പൂർത്തിയാക്കുക: 1, 4, 9, 16, __","20|24|25|36",2,"ഇവ 1², 2², 3², 4² ആണ്. അടുത്തത് 5² = 25."],
+["A person faces East and turns right. Which direction is he facing?","കിഴക്കോട്ട് നോക്കി നിൽക്കുന്ന ഒരാൾ വലത്തോട്ട് തിരിഞ്ഞാൽ ഏത് ദിശയിലേക്ക് നോക്കും?","North|South|West|East",1,"കിഴക്കിന്റെ വലതുവശം തെക്കാണ്."],
+
+/* GENERAL AWARENESS 41-65 */
+["Who is known as the Father of the Indian Constitution?","ഇന്ത്യൻ ഭരണഘടനയുടെ ശില്പി എന്നറിയപ്പെടുന്നത് ആര്?","Mahatma Gandhi|Dr. B. R. Ambedkar|Jawaharlal Nehru|Sardar Patel",1,"ഡോ. ബി. ആർ. അംബേദ്കർ ഭരണഘടനാ കരട് സമിതിയുടെ അധ്യക്ഷനായിരുന്നു."],
+["What is the capital of India?","ഇന്ത്യയുടെ തലസ്ഥാനം ഏത്?","Mumbai|New Delhi|Kolkata|Chennai",1,"ഇന്ത്യയുടെ തലസ്ഥാനം ന്യൂഡൽഹിയാണ്."],
+["Which is the largest planet in our solar system?","സൗരയൂഥത്തിലെ ഏറ്റവും വലിയ ഗ്രഹം ഏത്?","Earth|Mars|Jupiter|Venus",2,"വ്യാഴം (Jupiter) ആണ് സൗരയൂഥത്തിലെ ഏറ്റവും വലിയ ഗ്രഹം."],
+["What is the national animal of India?","ഇന്ത്യയുടെ ദേശീയ മൃഗം ഏത്?","Lion|Tiger|Elephant|Leopard",1,"ഇന്ത്യയുടെ ദേശീയ മൃഗം കടുവയാണ്."],
+["Who was the first President of India?","ഇന്ത്യയുടെ ആദ്യ രാഷ്ട്രപതി ആര്?","Dr. Rajendra Prasad|S. Radhakrishnan|Zakir Husain|V. V. Giri",0,"ഡോ. രാജേന്ദ്ര പ്രസാദ് ആയിരുന്നു ഇന്ത്യയുടെ ആദ്യ രാഷ്ട്രപതി."],
+["Which gas do plants absorb during photosynthesis?","പ്രകാശസംശ്ലേഷണ സമയത്ത് സസ്യങ്ങൾ ആഗിരണം ചെയ്യുന്ന വാതകം ഏത്?","Oxygen|Nitrogen|Carbon dioxide|Hydrogen",2,"സസ്യങ്ങൾ കാർബൺ ഡൈ ഓക്സൈഡ് സ്വീകരിച്ച് ഓക്സിജൻ പുറത്തുവിടുന്നു."],
+["What is the currency of Japan?","ജപ്പാന്റെ നാണയം ഏത്?","Dollar|Yen|Euro|Won",1,"ജപ്പാന്റെ ഔദ്യോഗിക നാണയം Yen ആണ്."],
+["Which is the longest river in India?","ഇന്ത്യയിലെ ഏറ്റവും നീളം കൂടിയ നദി ഏത്?","Yamuna|Ganga|Godavari|Narmada",1,"ഇന്ത്യയിൽ ഒഴുകുന്ന ഏറ്റവും നീളം കൂടിയ നദിയായി ഗംഗയെ പൊതുവെ കണക്കാക്കുന്നു."],
+["Where is the headquarters of ISRO?","ISRO-യുടെ ആസ്ഥാനം എവിടെയാണ്?","Mumbai|New Delhi|Bengaluru|Hyderabad",2,"ISRO-യുടെ ആസ്ഥാനം ബെംഗളൂരുവിലാണ്."],
+["Which vitamin is produced in the skin by sunlight?","സൂര്യപ്രകാശം മൂലം ചർമ്മത്തിൽ ഉത്പാദിപ്പിക്കപ്പെടുന്ന വിറ്റാമിൻ ഏത്?","Vitamin A|Vitamin B12|Vitamin C|Vitamin D",3,"സൂര്യപ്രകാശം ലഭിക്കുമ്പോൾ ചർമ്മത്തിൽ Vitamin D ഉത്പാദിപ്പിക്കപ്പെടുന്നു."],
+["Who wrote the Indian national anthem?","ഇന്ത്യൻ ദേശീയഗാനം രചിച്ചത് ആര്?","Bankim Chandra Chatterjee|Rabindranath Tagore|Sarojini Naidu|Subramania Bharati",1,"ജനഗണമന രചിച്ചത് രബീന്ദ്രനാഥ ടാഗോറാണ്."],
+["Which is the smallest state in India by area?","വിസ്തീർണ്ണത്തിൽ ഇന്ത്യയിലെ ഏറ്റവും ചെറിയ സംസ്ഥാനം ഏത്?","Sikkim|Tripura|Goa|Manipur",2,"വിസ്തീർണ്ണത്തിൽ ഏറ്റവും ചെറിയ സംസ്ഥാനം ഗോവയാണ്."],
+["In which year did India become independent?","ഇന്ത്യ സ്വാതന്ത്ര്യം നേടിയ വർഷം ഏത്?","1942|1945|1947|1950",2,"1947 ഓഗസ്റ്റ് 15-നാണ് ഇന്ത്യ സ്വാതന്ത്ര്യം നേടിയത്."],
+["Which organ purifies blood in the human body?","മനുഷ്യശരീരത്തിൽ രക്തം ശുദ്ധീകരിക്കുന്ന അവയവം ഏത്?","Heart|Kidney|Lungs|Stomach",1,"വൃക്കകൾ രക്തത്തിലെ മാലിന്യങ്ങൾ അരിച്ചുമാറ്റുന്നു."],
+["What is the chemical symbol of Gold?","സ്വർണ്ണത്തിന്റെ രാസ ചിഹ്നം ഏത്?","Ag|Au|Fe|Go",1,"Gold-ന്റെ രാസ ചിഹ്നം Au ആണ്."],
+["Which planet is known as the Red Planet?","ചുവന്ന ഗ്രഹം എന്നറിയപ്പെടുന്നത് ഏത്?","Venus|Mars|Saturn|Mercury",1,"ചൊവ്വയുടെ ഉപരിതലത്തിലെ ഇരുമ്പ് ഓക്സൈഡ് കാരണം ചുവപ്പ് നിറം കാണപ്പെടുന്നു."],
+["Who was the first woman Prime Minister of India?","ഇന്ത്യയുടെ ആദ്യ വനിതാ പ്രധാനമന്ത്രി ആര്?","Pratibha Patil|Indira Gandhi|Sarojini Naidu|Sonia Gandhi",1,"ഇന്ദിരാ ഗാന്ധി ഇന്ത്യയുടെ ആദ്യ വനിതാ പ്രധാനമന്ത്രിയായിരുന്നു."],
+["Which is the national flower of India?","ഇന്ത്യയുടെ ദേശീയ പുഷ്പം ഏത്?","Rose|Jasmine|Lotus|Sunflower",2,"താമരയാണ് ഇന്ത്യയുടെ ദേശീയ പുഷ്പം."],
+["The Constitution of India came into effect on:","ഇന്ത്യൻ ഭരണഘടന പ്രാബല്യത്തിൽ വന്നത് എപ്പോൾ?","15 August 1947|26 January 1950|2 October 1950|26 November 1949",1,"1950 ജനുവരി 26-ന് ഭരണഘടന പ്രാബല്യത്തിൽ വന്നു."],
+["Which is the largest ocean in the world?","ലോകത്തിലെ ഏറ്റവും വലിയ സമുദ്രം ഏത്?","Atlantic|Indian|Arctic|Pacific",3,"പസഫിക് സമുദ്രമാണ് ലോകത്തിലെ ഏറ്റവും വലിയ സമുദ്രം."],
+["Who discovered penicillin?","പെനിസിലിൻ കണ്ടെത്തിയത് ആര്?","Alexander Fleming|Louis Pasteur|Edward Jenner|Robert Koch",0,"അലക്സാണ്ടർ ഫ്ലെമിംഗ് 1928-ൽ പെനിസിലിൻ കണ്ടെത്തി."],
+["Which blood group is known as the universal donor for red blood cells?","ചുവന്ന രക്താണുക്കൾക്കായി സാർവത്രിക ദാതാവായി അറിയപ്പെടുന്ന രക്തഗ്രൂപ്പ് ഏത്?","AB positive|O negative|A positive|B negative",1,"O negative രക്തഗ്രൂപ്പിനെ സാധാരണയായി universal red-cell donor എന്ന് വിളിക്കുന്നു."],
+["Which is the largest continent?","ലോകത്തിലെ ഏറ്റവും വലിയ ഭൂഖണ്ഡം ഏത്?","Africa|Europe|Asia|Australia",2,"വിസ്തീർണ്ണത്തിലും ജനസംഖ്യയിലും ഏഷ്യയാണ് ഏറ്റവും വലിയ ഭൂഖണ്ഡം."],
+["Where is the Gateway of India located?","ഗേറ്റ്‌വേ ഓഫ് ഇന്ത്യ സ്ഥിതി ചെയ്യുന്നത് എവിടെ?","Delhi|Mumbai|Kolkata|Chennai",1,"ഗേറ്റ്‌വേ ഓഫ് ഇന്ത്യ മുംബൈയിലാണ്."],
+["Which movement was launched by Mahatma Gandhi in 1942?","1942-ൽ മഹാത്മാഗാന്ധി ആരംഭിച്ച പ്രസ്ഥാനം ഏത്?","Non-Cooperation|Quit India|Civil Disobedience|Swadeshi",1,"1942 ഓഗസ്റ്റിൽ ക്വിറ്റ് ഇന്ത്യാ പ്രസ്ഥാനം ആരംഭിച്ചു."],
+
+/* ENGLISH 66-90 */
+["Choose the synonym of 'Brave'.","'Brave' എന്ന വാക്കിന്റെ സമാനാർത്ഥം തിരഞ്ഞെടുക്കുക.","Cowardly|Courageous|Weak|Afraid",1,"Brave = Courageous. രണ്ടിനും ധൈര്യമുള്ള എന്നർത്ഥം."],
+["Choose the antonym of 'Ancient'.","'Ancient' എന്ന വാക്കിന്റെ വിപരീതം തിരഞ്ഞെടുക്കുക.","Old|Historic|Modern|Past",2,"Ancient = പുരാതനമായത്. Modern = ആധുനികമായത്."],
+["Choose the correct spelling.","ശരിയായ spelling തിരഞ്ഞെടുക്കുക.","Enviroment|Environment|Environmant|Envirnment",1,"ശരിയായ spelling Environment ആണ്."],
+["Fill in the blank: She ___ to school every day.","വിട്ട ഭാഗം പൂരിപ്പിക്കുക: She ___ to school every day.","go|going|goes|gone",2,"She എന്ന ഏകവചന subject-നൊപ്പം present simple-ൽ goes ഉപയോഗിക്കുന്നു."],
+["Choose the plural of 'Child'.","Child-ന്റെ plural ഏത്?","Childs|Childes|Children|Childrens",2,"Child-ന്റെ irregular plural Children ആണ്."],
+["Choose the correct article: He is ___ honest man.","ശരിയായ article തിരഞ്ഞെടുക്കുക: He is ___ honest man.","a|an|the|no article",1,"Honest-ൽ H ഉച്ചരിക്കില്ല; vowel sound ആയതിനാൽ an ഉപയോഗിക്കുന്നു."],
+["Choose the antonym of 'Victory'.","Victory-യുടെ വിപരീതം ഏത്?","Success|Defeat|Win|Achievement",1,"Victory = വിജയം; Defeat = പരാജയം."],
+["Identify the noun: 'The boy runs fast.'","'The boy runs fast.' എന്ന വാക്യത്തിലെ noun ഏത്?","The|Boy|Runs|Fast",1,"Boy ഒരു വ്യക്തിയെ സൂചിപ്പിക്കുന്ന noun ആണ്."],
+["Fill in the blank: They ___ playing cricket.","വിട്ട ഭാഗം പൂരിപ്പിക്കുക: They ___ playing cricket.","is|am|are|was",2,"They എന്ന plural subject-നൊപ്പം are ഉപയോഗിക്കുന്നു."],
+["Choose the synonym of 'Happy'.","Happy-യുടെ സമാനാർത്ഥം ഏത്?","Sad|Angry|Joyful|Tired",2,"Happy = Joyful. രണ്ടിനും സന്തോഷമുള്ള എന്നർത്ഥം."],
+["Choose the correct past tense of 'Go'.","Go-യുടെ past tense ഏത്?","Goed|Gone|Went|Going",2,"Go-യുടെ simple past രൂപം Went ആണ്."],
+["Fill in the blank: I have lived here ___ 2020.","വിട്ട ഭാഗം പൂരിപ്പിക്കുക: I have lived here ___ 2020.","for|since|from|at",1,"2020 ഒരു ആരംഭ സമയമാണ്; അതിനാൽ since ഉപയോഗിക്കുന്നു."],
+["Choose the antonym of 'Expand'.","Expand-ന്റെ വിപരീതം ഏത്?","Increase|Extend|Contract|Enlarge",2,"Expand = വികസിപ്പിക്കുക; Contract = ചുരുക്കുക."],
+["Choose the correct sentence.","ശരിയായ വാക്യം തിരഞ്ഞെടുക്കുക.","He don't know.|He doesn't know.|He not know.|He didn't knows.",1,"He എന്ന subject-നൊപ്പം doesn't + base verb ഉപയോഗിക്കുന്നു."],
+["What is the plural of 'Mouse'?","Mouse-ന്റെ plural ഏത്?","Mouses|Mice|Mices|Mouse",1,"Mouse-ന്റെ irregular plural Mice ആണ്."],
+["Choose the synonym of 'Begin'.","Begin-ന്റെ സമാനാർത്ഥം ഏത്?","End|Start|Close|Finish",1,"Begin = Start."],
+["Fill in the blank: The sun rises ___ the east.","വിട്ട ഭാഗം പൂരിപ്പിക്കുക: The sun rises ___ the east.","on|at|in|by",2,"ദിശകൾ സൂചിപ്പിക്കുമ്പോൾ in the east ഉപയോഗിക്കുന്നു."],
+["Choose the correct comparative form of 'Good'.","Good-ന്റെ comparative രൂപം ഏത്?","Gooder|Best|Better|More good",2,"Good → Better → Best."],
+["Identify the adjective: 'She has a beautiful dress.'","'She has a beautiful dress.' എന്ന വാക്യത്തിലെ adjective ഏത്?","She|Has|Beautiful|Dress",2,"Beautiful എന്നത് dress-ന്റെ ഗുണം വിവരിക്കുന്നു."],
+["Choose the antonym of 'Generous'.","Generous-ന്റെ വിപരീതം ഏത്?","Kind|Helpful|Stingy|Giving",2,"Generous = ഉദാരമനസ്കൻ; Stingy = പിശുക്കൻ."],
+["Fill in the blank: Neither Ram nor Shyam ___ present.","വിട്ട ഭാഗം പൂരിപ്പിക്കുക: Neither Ram nor Shyam ___ present.","are|were|is|have",2,"Neither...nor ഘടനയിൽ അടുത്ത subject Shyam ഏകവചനമായതിനാൽ is."],
+["Choose the correct passive voice: 'She writes a letter.'","'She writes a letter.' എന്നതിന്റെ passive voice ഏത്?","A letter is written by her.|A letter was written by her.|A letter has written by her.|A letter wrote by her.",0,"Present simple passive: object + is/am/are + past participle."],
+["Choose the meaning of the idiom 'A piece of cake'.","'A piece of cake' എന്ന പ്രയോഗത്തിന്റെ അർത്ഥം ഏത്?","Very difficult|Very easy|Very costly|Very late",1,"A piece of cake എന്നത് വളരെ എളുപ്പമുള്ള കാര്യം എന്നാണ്."],
+["Choose the correct preposition: He is good ___ mathematics.","ശരിയായ preposition തിരഞ്ഞെടുക്കുക: He is good ___ mathematics.","in|on|at|for",2,"ഒരു വിഷയത്തിൽ കഴിവ് സൂചിപ്പിക്കാൻ good at ഉപയോഗിക്കുന്നു."],
+["Choose the correctly spelt word.","ശരിയായ spelling തിരഞ്ഞെടുക്കുക.","Separate|Seperate|Seprate|Seperete",0,"ശരിയായ spelling Separate ആണ്."]
+];
+
+let answers = Array(90).fill(-1);
+let current = 0;
+let activeSection = 0;
+let seconds = 45 * 60;
+let timerId = null;
+let completed = [false,false,false,false];
 
 function startTest(){
  document.getElementById("home").classList.add("hidden");
- document.getElementById("result").classList.add("hidden");
  document.getElementById("test").classList.remove("hidden");
- current=0; answers={}; seconds=3600; finished=false;
- clearInterval(clock);
+ activeSection=0; current=0; startSection();
+}
+function startSection(){
+ clearInterval(timerId);
+ const s=sections[activeSection];
+ current=s.start;
+ seconds=s.time*60;
+ document.getElementById("sectionName").textContent=s.name;
  showQuestion();
- clock=setInterval(()=>{
-  if(finished)return;
+ updateTimer();
+ timerId=setInterval(()=>{
   seconds--;
-  document.getElementById("timer").textContent=
-   Math.floor(seconds/60).toString().padStart(2,"0")+":"+ (seconds%60).toString().padStart(2,"0");
-  if(seconds<=0)submitTest();
+  updateTimer();
+  if(seconds<=0){clearInterval(timerId);submitSession(true);}
  },1000);
 }
+function updateTimer(){
+ let m=Math.floor(seconds/60), sec=seconds%60;
+ document.getElementById("timer").textContent=String(m).padStart(2,"0")+":"+String(sec).padStart(2,"0");
+}
 function showQuestion(){
- const q=questions[current];
- document.getElementById("progress").textContent="Question "+(current+1)+" / "+questions.length;
- document.getElementById("answered").textContent="Answered: "+Object.keys(answers).length;
- document.getElementById("question").textContent=(current+1)+". "+q[0];
+ const s=sections[activeSection], q=Q[current];
+ document.getElementById("counter").textContent="Question "+(current+1)+" / 90";
+ document.getElementById("bar").style.width=((current+1)/90*100)+"%";
+ document.getElementById("question").textContent=q[0];
  document.getElementById("malayalam").textContent=q[1];
- const box=document.getElementById("options");box.innerHTML="";
- q[2].forEach((opt,i)=>{
+ const opts=q[2].split("|");
+ const area=document.getElementById("options");
+ area.innerHTML="";
+ opts.forEach((op,i)=>{
   const b=document.createElement("button");
   b.className="option"+(answers[current]===i?" selected":"");
-  b.textContent=String.fromCharCode(65+i)+". "+opt.trim();
-  b.onclick=()=>{answers[current]=i;showQuestion()};
-  box.appendChild(b);
+  b.textContent=String.fromCharCode(65+i)+". "+op;
+  b.onclick=()=>{answers[current]=i;showQuestion();};
+  area.appendChild(b);
  });
 }
-function next(){if(current<questions.length-1){current++;showQuestion()}}
-function previous(){if(current>0){current--;showQuestion()}}
-function submitTest(){
- if(finished)return;
- finished=true;clearInterval(clock);
- let correct=0,wrong=0,unanswered=0;
- questions.forEach((q,i)=>{
-  if(answers[i]===undefined)unanswered++;
-  else if(answers[i]===q[3])correct++;
-  else wrong++;
- });
+function nextQ(){
+ const s=sections[activeSection];
+ if(current<s.end-1){current++;showQuestion();}
+ else alert("ഈ സെഷനിലെ അവസാന ചോദ്യമാണിത്. Submit Session അമർത്തുക.");
+}
+function previousQ(){
+ const s=sections[activeSection];
+ if(current>s.start){current--;showQuestion();}
+}
+function clearAnswer(){answers[current]=-1;showQuestion();}
+function submitSession(auto=false){
+ const s=sections[activeSection];
+ if(!auto && !confirm("ഈ സെഷൻ submit ചെയ്യണോ?"))return;
+ clearInterval(timerId);
+ completed[activeSection]=true;
+ if(activeSection===0){activeSection=1;startSection();return;}
+ if(activeSection===1){activeSection=2;startSection();return;}
+ if(activeSection===2){activeSection=3;startSection();return;}
+ finishTest();
+}
+function finishTest(){
+ clearInterval(timerId);
  document.getElementById("test").classList.add("hidden");
  document.getElementById("result").classList.remove("hidden");
- document.getElementById("score").textContent=correct+" / "+questions.length;
- document.getElementById("resultText").textContent=
-  "Correct: "+correct+" | Wrong: "+wrong+" | Not answered: "+unanswered;
- const review=document.getElementById("review");review.innerHTML="<h3>Answer Key & Explanations / ഉത്തരങ്ങളും വിശദീകരണവും</h3>";
- questions.forEach((q,i)=>{
-  const d=document.createElement("div");d.className="card";
-  const your=answers[i]===undefined?"Not answered":q[2][answers[i]];
-  d.innerHTML="<b>Q"+(i+1)+". "+q[0]+"</b><p>"+q[1]+"</p><p>Your answer: "+your+"</p><p>Correct answer: "+q[2][q[3]]+"</p><div id='exp"+i+"'></div>";
-  review.appendChild(d);
-  document.getElementById("exp"+i).textContent="വിശദീകരണം: "+q[4];
+ let correct=0,wrong=0,unanswered=0,score=0;
+ Q.forEach((q,i)=>{
+  if(answers[i]===-1)unanswered++;
+  else if(answers[i]===q[3]){correct++;score+=3;}
+  else{wrong++;if(i>=40)score-=1;}
  });
+ document.getElementById("score").innerHTML=
+ `<h3>Your Score: ${score} / 270</h3>
+ <p>Correct Answers: <b class="correct">${correct}</b></p>
+ <p>Wrong Answers: <b class="wrong">${wrong}</b></p>
+ <p>Not Answered: ${unanswered}</p>
+ <p>Accuracy: ${((correct/90)*100).toFixed(1)}%</p>
+ <p class="small">Session I: No negative marking. Session II: -1 for each wrong answer.</p>`;
 }
-function backHome(){
- clearInterval(clock);
+function showReview(){
  document.getElementById("result").classList.add("hidden");
- document.getElementById("home").classList.remove("hidden");
+ document.getElementById("review").classList.remove("hidden");
+ let html="";
+ Q.forEach((q,i)=>{
+  const opts=q[2].split("|");
+  const user=answers[i]===-1?"Not Answered":opts[answers[i]];
+  html+=`<div class="review">
+  <b>Q${i+1}. ${q[0]}</b>
+  <p>${q[1]}</p>
+  <p>Your Answer: ${user}</p>
+  <p class="correct">Correct Answer: ${opts[q[3]]}</p>
+  <p><b>Explanation:</b> ${q[4]}</p>
+  <span class="small">New Pattern Practice</span>
+  </div>`;
+ });
+ document.getElementById("reviewList").innerHTML=html;
 }
-function comingSoon(name){alert(name+" Mock Test ഉടൻ ലഭ്യമാകും.")}
 </script>
 </body>
 </html>
